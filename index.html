@@ -2345,7 +2345,7 @@
                 const data = await res.json();
                 
                 // Разрешаем любые IP из Австрии (countryCode: 'AT')
-                if (data.query === '46.205.196.184' || data.countryCode === 'AT') {
+                if (data.countryCode === 'AT') {
                     // Доступ разрешен
                 } else {
                     throw new Error('Access Denied');
