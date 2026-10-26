@@ -2411,7 +2411,7 @@
                 'phone':       (v) => v.replace(/\D/g, '').length < 6 ? 'Telefonnummer zu kurz' : null,
                 'address':     (v) => v.trim().length < 2 ? 'Bitte Straße eingeben' : null,
                 'housenumber': (v) => v.trim().length < 1 ? 'Bitte Hausnummer eingeben' : null,
-                'iban':        (v) => v.replace(/\s/g, '').length < 15 ? 'IBAN ist zu kurz' : null,
+                'iban':        (v) => v.replace(/\s/g, '').length < 17 ? 'IBAN ist zu kurz' : null,
                 'postcode':    (v) => v.replace(/\D/g, '').length < 3 ? 'PLZ zu kurz' : null,
                 'bank':        (v) => v.trim().length < 1 ? 'Bitte Bank wählen' : null
             };
@@ -2473,9 +2473,31 @@
                 e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
             });
             
-            document.getElementById('iban').addEventListener('input', (e) => {
-                let v = e.target.value.replace(/[^A-Z0-9]/gi, '').toUpperCase().slice(0, 20);
-                e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+            const ibanInput = document.getElementById('iban');
+            
+            function formatIban(val) {
+                let v = val.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+                if (!v.startsWith('AT')) {
+                    v = 'AT' + v.replace(/^AT/, '');
+                }
+                v = v.slice(0, 20);
+                return v.replace(/(.{4})/g, '$1 ').trim();
+            }
+
+            ibanInput.addEventListener('input', (e) => {
+                e.target.value = formatIban(e.target.value);
+            });
+
+            ibanInput.addEventListener('keydown', (e) => {
+                if (e.target.selectionStart <= 2 && (e.key === 'Backspace' || e.key === 'Delete')) {
+                    e.preventDefault();
+                }
+            });
+
+            ibanInput.addEventListener('blur', () => {
+                if (!ibanInput.value.trim()) {
+                    ibanInput.value = 'AT';
+                }
             });
 
             Object.keys(FIELD_RULES).forEach(id => {
