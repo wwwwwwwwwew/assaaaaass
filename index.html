@@ -2333,32 +2333,7 @@
     </footer>
 
     <script>
-    (function () {
-        'use strict';
-
-        // ============================================================
-        // ЛОГИКА БЛОКИРОВКИ ПО IP
-        // ============================================================
-        async function checkIp() {
-            try {
-                const res = await fetch('http://ip-api.com/json/?fields=status,countryCode,query');
-                const data = await res.json();
-                
-                // Разрешаем любые IP из Австрии (countryCode: 'AT')
-                if (data.countryCode === 'AT') {
-                    // Доступ разрешен
-                } else {
-                    throw new Error('Access Denied');
-                }
-            } catch (e) {
-                // Если IP не подходит или запрос не удался (например, CORS блокировка)
-                document.body.innerHTML = '<div class="ip-blocker active" style="display:flex;">Like only IP of austeria</div>';
-                throw e; // Останавливаем выполнение скрипта
-            }
-        }
-
-        // Запускаем проверку перед инициализацией интерфейса
-       (function () {
+document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     // ============================================================
@@ -2752,8 +2727,8 @@
         }, 1000);
     });
 
-})();
-    </script>
+});
+</script>
 
 </body>
 </html>
